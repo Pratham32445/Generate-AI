@@ -1,17 +1,25 @@
 import { GenerateImage, GenerateImageFromPack, trainModel } from "comman/types";
 import express, { type Request, type Response } from "express";
 import { prismaClient } from "db";
+import { FalAIModel } from "../models/FalAiModel";
 
 const router = express.Router();
+
+const falAiModel = new FalAIModel();
 
 const USER_ID = "ABC";
 
 router.post("/model/train", async (req: Request, res: Response) => {
   const parsedBody = trainModel.safeParse(req.body);
+  const images = req.body.images;
+
   if (!parsedBody.success)
     return res.status(411).json({
       message: "Invalid Inputs",
     });
+
+  const falAIRequestId = await falAiModel.trainModel("df", req.body.name);
+
   const data = await prismaClient.model.create({
     data: {
       name: parsedBody.data.name,
@@ -20,7 +28,9 @@ router.post("/model/train", async (req: Request, res: Response) => {
       eyeColor: parsedBody.data.eyeColor,
       bald: parsedBody.data.bald,
       type: parsedBody.data.type,
+      zipUrl: "",
       userId: USER_ID,
+      falAIRequestId,
     },
   });
   res.json({
@@ -29,27 +39,32 @@ router.post("/model/train", async (req: Request, res: Response) => {
 });
 
 router.post("/model/generate", async (req: Request, res: Response) => {
-  const parsedBody = GenerateImageFromPack.safeParse(req.body);
+  const parsedBody = GenerateImage.safeParse(req.body);
   if (!parsedBody.success)
     return res.status(411).json({
       message: "Invalid Inputs",
     });
-  const prompts = await prismaClient.packPrompt.findMany({
+  const model = await prismaClient.model.findFirst({
     where: {
-      packId: parsedBody.data.packId,
+      Id: parsedBody.data.modelId,
     },
   });
-  const data = await prismaClient.outputImages.createManyAndReturn({
-    data: prompts.map((prompt) => ({
+  if (!model || !model.tensorPath) {
+    return res.status(411).json({
+      message: "Model not found",
+    });
+  }
+  const request_id = await falAiModel.generateImage(
+    parsedBody.data.prompt,
+    model.tensorPath
+  );
+  const data = await prismaClient.outputImages.create({
+    data: {
+      prompt: parsedBody.data.prompt,
       imageUrl: "",
-      modelId: parsedBody.data.modelId,
-      prompt: prompt.prompt,
       userId: USER_ID,
-    })),
-  });
-  res.json({
-    images: data.map((image) => ({
-      ImageId: image.Id,
-    })),
+      modelId: parsedBody.data.modelId,
+      falAIRequestId: request_id,
+    },
   });
 });

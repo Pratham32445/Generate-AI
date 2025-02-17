@@ -21,19 +21,23 @@ model User {
 }
 
 model Model {
-  Id           String           @id @default(uuid())
-  name         String
-  type         ModelTypeEnum
-  age          Int
-  ethinicity   EthinicityEnum
-  eyeColor     EyeColorEnum
-  bald         Boolean
-  images       TrainingImages[]
-  outputImages OutputImages[]
-  userId       String
-  user         User             @relation(fields: [userId], references: [Id])
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  Id             String                  @id @default(uuid())
+  name           String
+  type           ModelTypeEnum
+  age            Int
+  ethinicity     EthinicityEnum
+  eyeColor       EyeColorEnum
+  bald           Boolean
+  images         TrainingImages[]
+  outputImages   OutputImages[]
+  userId         String
+  user           User                    @relation(fields: [userId], references: [Id])
+  status         ModelTrainingStatusEnum @default(Pending)
+  falAIRequestId String?
+  tensorPath     String?
+  zipUrl         String
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
 }
 
 model TrainingImages {
@@ -44,15 +48,16 @@ model TrainingImages {
 }
 
 model OutputImages {
-  Id        String                @id @default(uuid())
-  imageUrl  String
-  userId    String
-  prompt    String
-  status    OutputImageStatusEnum @default(Pending)
-  modelId   String
-  model     Model                 @relation(fields: [modelId], references: [Id])
-  createdAt DateTime              @default(now())
-  updatedAt DateTime              @updatedAt
+  Id             String                @id @default(uuid())
+  imageUrl       String
+  userId         String
+  prompt         String
+  status         OutputImageStatusEnum @default(Pending)
+  falAIRequestId String
+  modelId        String
+  model          Model                 @relation(fields: [modelId], references: [Id])
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
 }
 
 model Packs {
@@ -94,6 +99,12 @@ enum EyeColorEnum {
 }
 
 enum OutputImageStatusEnum {
+  Pending
+  Generated
+  Failed
+}
+
+enum ModelTrainingStatusEnum {
   Pending
   Generated
   Failed
