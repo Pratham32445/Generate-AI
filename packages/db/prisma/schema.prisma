@@ -16,6 +16,7 @@ datasource db {
 model User {
   Id             String  @id @default(uuid())
   userName       String
+  model          Model[]
   profilePicture String?
 }
 
@@ -29,6 +30,8 @@ model Model {
   bald         Boolean
   images       TrainingImages[]
   outputImages OutputImages[]
+  userId       String
+  user         User             @relation(fields: [userId], references: [Id])
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
 }
@@ -41,13 +44,15 @@ model TrainingImages {
 }
 
 model OutputImages {
-  Id        String   @id @default(uuid())
+  Id        String                @id @default(uuid())
   imageUrl  String
   userId    String
+  prompt    String
+  status    OutputImageStatusEnum @default(Pending)
   modelId   String
-  model     Model    @relation(fields: [modelId], references: [Id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  model     Model                 @relation(fields: [modelId], references: [Id])
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
 }
 
 model Packs {
@@ -86,4 +91,10 @@ enum EyeColorEnum {
   Blue
   Hazel
   Gray
+}
+
+enum OutputImageStatusEnum {
+  Pending
+  Generated
+  Failed
 }
