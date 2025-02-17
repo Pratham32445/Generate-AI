@@ -1,15 +1,12 @@
 {
-  "name": "backend",
+  "name": "db",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "prisma": "^6.3.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "express": "^4.21.2",
-    "comman": "*"
   }
 }

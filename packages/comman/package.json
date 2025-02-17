@@ -1,7 +1,10 @@
 {
-  "name": "backend",
+  "name": "comman",
   "module": "index.ts",
   "type": "module",
+  "exports":{
+    "./types" : "./types.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -9,7 +12,6 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "express": "^4.21.2",
-    "comman": "*"
+    "zod": "^3.24.2"
   }
 }
