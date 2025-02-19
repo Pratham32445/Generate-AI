@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  Id             String         @id @default(uuid())
+  userName       String
+  email          String         @unique
+  profilePicture String?
+  model          Model[]
+  outputImages   OutputImages[]
+}
+
+model Model {
+  Id             String             @id @default(uuid())
+  name           String
+  type           ModelTypeEnum
+  ethinicity     EthinicityTypeEnum
+  eyeColor       EyeColorEnum
+  bald           Boolean
+  trainingImages TrainigImages[]
+  outputImages   OutputImages[]
+  userId         String
+  user           User               @relation(fields: [userId], references: [Id])
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+}
+
+model TrainigImages {
+  Id       String @id @default(uuid())
+  imageUrl String
+  modelId  String
+  model    Model  @relation(fields: [modelId], references: [Id])
+}
+
+model OutputImages {
+  Id        String                @id @default(uuid())
+  imageUrl  String
+  userId    String
+  modelId   String
+  prompt    String
+  model     Model                 @relation(fields: [modelId], references: [Id])
+  user      User                  @relation(fields: [userId], references: [Id])
+  status    OutputImageStatusEnum @default(Pending)
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+}
+
+model Pack {
+  Id         String       @id @default(uuid())
+  name       String
+  packPrompt PackPrompt[]
+}
+
+model PackPrompt {
+  Id     String @id @default(uuid())
+  prompt String
+  packId String
+  pack   Pack   @relation(fields: [packId], references: [Id])
+}
+
+enum ModelTypeEnum {
+  Man
+  Women
+  Other
+}
+
+enum EthinicityTypeEnum {
+  Black
+  Asian_American
+  East_Asian
+  South_East_Asian
+  South_Asian
+  Middle_Eastern
+  Pacific
+  Hispanic
+}
+
+enum EyeColorEnum {
+  Brown
+  Blue
+  Hazel
+  Gray
+}
+
+enum OutputImageStatusEnum {
+  Pending
+  Generated
+  Failed
+}

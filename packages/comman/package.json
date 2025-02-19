@@ -1,0 +1,16 @@
+{
+  "name": "comman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    "./types": "./types.ts"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}
