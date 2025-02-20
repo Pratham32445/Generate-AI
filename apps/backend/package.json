@@ -16,6 +16,7 @@
     "@aws-sdk/s3-request-presigner": "^3.750.0",
     "@fal-ai/client": "^1.2.3",
     "comman": "workspace:*",
+    "cors": "^2.8.5",
     "db": "workspace:*",
     "dotenv": "^16.4.7",
     "esbuild": "^0.25.0",

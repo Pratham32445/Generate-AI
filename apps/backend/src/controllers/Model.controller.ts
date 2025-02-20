@@ -9,23 +9,22 @@ const falAIModel = new FalAiModel();
 
 const USER_ID = "abc";
 
-
-
 router.post("/model/training", async (req, res) => {
   const parsedBody = TrainModel.safeParse(req.body);
+  console.log(parsedBody.error);
   if (!parsedBody.success)
     return res.status(411).json({
       message: "Invalid Inputs",
     });
-  const request_id = await falAIModel.trainModel();
-  const data = await prismaClient.model.create({
+  const request_id = await falAIModel.trainModel(parsedBody.data.zipUrl,parsedBody.data.name);
+  const data = await prismaClient.model.create({  
     data: {
       name: parsedBody.data.name,
       ethinicity: parsedBody.data.ethinicity,
       type: parsedBody.data.type,
       bald: parsedBody.data.bald,
       eyeColor: parsedBody.data.eyeColor,
-      userId: USER_ID,
+      userId: "997ee7c5-e311-41f4-bf25-559fa7f3474e",
       falAiRequestId: request_id,
       status: "Pending",
     },

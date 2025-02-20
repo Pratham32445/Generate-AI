@@ -6,10 +6,17 @@ import dotenv from "dotenv";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { s3client } from "./aws/s3";
+import cors from "cors";
+import { fal } from "@fal-ai/client";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+
+fal.config({
+  credentials: process.env.FAL_API_KEY,
+});
 
 dotenv.config();
 
@@ -17,8 +24,8 @@ const PORT = process.env.PORT || 8080;
 
 const USER_ID = "abc";
 
-app.post("/ai", ModelRouter);
-app.post("/bundle", PackRouter);
+app.use("/ai", ModelRouter);
+app.use("/bundle", PackRouter);
 
 app.get("/image/bulk", async (req, res) => {
   const Ids = req.query.images as string[];
@@ -66,14 +73,27 @@ app.post("/fal-ai/webhook/train", async (req, res) => {
 });
 
 app.get("/pre-signed-url", async (req, res) => {
+  const key = `models/${Date.now()}.zip`;
   const command = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME!,
-    Key: `models/${Date.now()}.zip`,
+    Key: key,
   });
   const url = await getSignedUrl(s3client, command, { expiresIn: 60 * 5 });
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+
   res.json({
     url,
+    key,
   });
+});
+
+app.options("/pre-signed-url", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
