@@ -89,6 +89,17 @@ app.get("/pre-signed-url", async (req, res) => {
   });
 });
 
+app.get("/model/train/status", async (req, res) => {
+  const requestId = req.query.requestId as string;
+  const status = await fal.queue.status("fal-ai/flux-lora-fast-training", {
+    requestId,
+    logs: true,
+  });
+  res.json({
+    status,
+  });
+});
+
 app.options("/pre-signed-url", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");

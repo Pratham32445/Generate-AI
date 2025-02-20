@@ -42,6 +42,7 @@ const TrainModel = () => {
     "Brown"
   );
   const [zipUrl, setZipUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const trainModel = async () => {
     const input: TrainModelTypes = {
@@ -53,8 +54,13 @@ const TrainModel = () => {
       type,
       zipUrl,
     };
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/training`,input);
-    console.log(response);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/training`,
+      input
+    );
+    if (response.status == 200) {
+      setIsLoading(true);
+    }
   };
   return (
     <div className="flex justify-center mb-10 opacity-0 animate-fade-up  [animation-delay:400ms]">
@@ -148,12 +154,35 @@ const TrainModel = () => {
           </div>
           <UploadImage onUploadDone={(zipUrl) => setZipUrl(zipUrl)} />
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant={"secondary"}>Cancel</Button>
-          <Button disabled={!name || !type || !ethinicity || !bald || !zipUrl || !eyeColor} onClick={trainModel} className="bg-[#DEFF00]">
-            <Brain /> Train Model
-          </Button>
-        </CardFooter>
+        {!isLoading ? (
+          <CardFooter className="flex justify-between">
+            <Button variant={"secondary"}>Cancel</Button>
+            <Button
+              disabled={
+                isLoading ||
+                !name ||
+                !type ||
+                !ethinicity ||
+                !bald ||
+                !zipUrl ||
+                !eyeColor
+              }
+              onClick={trainModel}
+              className="bg-[#DEFF00]"
+            >
+              <Brain /> Train Model
+            </Button>
+          </CardFooter>
+        ) : (
+          <CardFooter>
+            <div>
+              <p className="text-[#DEFF00]">Your Model is in Training Process...</p>
+            </div>
+            <div className="mx-4">
+              <Button className="bg-[#bbd414] hover:bg-[#DEFF00]">See Status</Button>
+            </div>
+          </CardFooter>
+        )}
       </Card>
     </div>
   );
