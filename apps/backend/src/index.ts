@@ -57,6 +57,7 @@ app.post("/fal-ai/webhook/generate", async (req, res) => {
 });
 
 app.post("/fal-ai/webhook/train", async (req, res) => {
+  console.log("webhook calling");
   const request_id = req.body.request_id;
   await prismaClient.model.updateMany({
     where: {

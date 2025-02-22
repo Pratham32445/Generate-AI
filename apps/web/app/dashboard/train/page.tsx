@@ -54,9 +54,15 @@ const TrainModel = () => {
       type,
       zipUrl,
     };
+    const tokenData = await axios.get("/api/token");
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/training`,
-      input
+      input,
+      {
+        headers: {
+          Authorization: `Bearer ${tokenData.data.token}`,
+        },
+      }
     );
     if (response.status == 200) {
       setIsLoading(true);
@@ -176,10 +182,14 @@ const TrainModel = () => {
         ) : (
           <CardFooter>
             <div>
-              <p className="text-[#DEFF00]">Your Model is in Training Process...</p>
+              <p className="text-[#DEFF00]">
+                Your Model is in Training Process...
+              </p>
             </div>
             <div className="mx-4">
-              <Button className="bg-[#bbd414] hover:bg-[#DEFF00]">See Status</Button>
+              <Button className="bg-[#bbd414] hover:bg-[#DEFF00]">
+                See Status
+              </Button>
             </div>
           </CardFooter>
         )}

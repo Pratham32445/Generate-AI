@@ -29,6 +29,10 @@ const data = [
     link: "/dashboard/train",
   },
   {
+    name: "Models",
+    link: "/dashboard/models",
+  },
+  {
     name: "Profile",
     link: "/user/profile",
   },
@@ -46,7 +50,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Brain className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold text-2xl">Gernate.AI</span>
+                  <span className="font-semibold text-2xl">Generate.AI</span>
                 </div>
               </a>
             </SidebarMenuButton>

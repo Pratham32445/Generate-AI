@@ -2,6 +2,7 @@ import express from "express";
 import { GenerateImage, TrainModel } from "comman/types";
 import prismaClient from "db";
 import { FalAiModel } from "../models/FalAiModel";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
@@ -9,22 +10,31 @@ const falAIModel = new FalAiModel();
 
 const USER_ID = "abc";
 
-router.post("/model/training", async (req, res) => {
+router.post("/model/training", authMiddleware, async (req, res) => {
   const parsedBody = TrainModel.safeParse(req.body);
   console.log(parsedBody.error);
   if (!parsedBody.success)
     return res.status(411).json({
       message: "Invalid Inputs",
     });
-  const request_id = await falAIModel.trainModel(parsedBody.data.zipUrl,parsedBody.data.name);
-  const data = await prismaClient.model.create({  
+  const request_id = await falAIModel.trainModel(
+    parsedBody.data.zipUrl,
+    parsedBody.data.name
+  );
+  const user = await prismaClient.user.findFirst({
+    where: {
+      // @ts-ignore
+      email: req.user.email!,
+    },
+  });
+  const data = await prismaClient.model.create({
     data: {
       name: parsedBody.data.name,
       ethinicity: parsedBody.data.ethinicity,
       type: parsedBody.data.type,
       bald: parsedBody.data.bald,
       eyeColor: parsedBody.data.eyeColor,
-      userId: "997ee7c5-e311-41f4-bf25-559fa7f3474e",
+      userId: user?.Id!,
       falAiRequestId: request_id,
       status: "Pending",
     },
@@ -34,7 +44,7 @@ router.post("/model/training", async (req, res) => {
   });
 });
 
-router.post("/model/generate", async (req, res) => {
+router.post("/model/generate", authMiddleware, async (req, res) => {
   const parsedBody = GenerateImage.safeParse(req.body);
   if (!parsedBody.success)
     return res.status(411).json({
