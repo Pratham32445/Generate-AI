@@ -41,6 +41,7 @@ router.post("/model/training", authMiddleware, async (req, res) => {
   });
   res.json({
     Id: data.Id,
+    request_id: request_id,
   });
 });
 
@@ -70,6 +71,24 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
   });
   res.json({
     image: image.Id,
+  });
+});
+
+router.get("/models/user", authMiddleware, async (req, res) => {
+  const user = await prismaClient.user.findFirst({
+    where: {
+      // @ts-ignore
+      email: req.user.email!,
+    },
+  });
+  const models = await prismaClient.model.findFirst({
+    where: {
+      userId: user?.Id,
+      status : "Generated"
+    },
+  });
+  res.json({
+    models,
   });
 });
 

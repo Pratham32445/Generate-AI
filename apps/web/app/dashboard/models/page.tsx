@@ -43,7 +43,7 @@ const Models = async () => {
                   href={`/dashboard/models/status/${model.falAiRequestId}`}
                   key={key}
                 >
-                  <Card>
+                  <Card className="border-2 border-neutral-800/50 rounded-2xl p-6 border-yellow-700 bg-yellow-500/10 transition-all duration-300">
                     <CardHeader>
                       <CardTitle>{model.name}</CardTitle>
                       <CardDescription>Card Description</CardDescription>

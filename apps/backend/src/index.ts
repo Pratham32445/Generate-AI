@@ -57,7 +57,7 @@ app.post("/fal-ai/webhook/generate", async (req, res) => {
 });
 
 app.post("/fal-ai/webhook/train", async (req, res) => {
-  console.log("webhook calling");
+  console.log("webhook calling",req.body);
   const request_id = req.body.request_id;
   await prismaClient.model.updateMany({
     where: {
@@ -65,7 +65,7 @@ app.post("/fal-ai/webhook/train", async (req, res) => {
     },
     data: {
       status: "Generated",
-      tensorPath: req.body.tensorPath,
+      tensorPath: req.body.payload.diffusers_lora_file.url,
     },
   });
   res.json({
@@ -91,14 +91,20 @@ app.get("/pre-signed-url", async (req, res) => {
 });
 
 app.get("/model/train/status", async (req, res) => {
-  const requestId = req.query.requestId as string;
-  const status = await fal.queue.status("fal-ai/flux-lora-fast-training", {
-    requestId,
-    logs: true,
-  });
-  res.json({
-    status,
-  });
+  try {
+    const requestId = req.query.requestId as string;
+    const status = await fal.queue.status("fal-ai/flux-lora-fast-training", {
+      requestId,
+      logs: true,
+    });
+    res.json({
+      status,
+    });
+  } catch (error) {
+    res.status(404).json({
+      Message: "We can't Find this Model",
+    });
+  }
 });
 
 app.options("/pre-signed-url", (req, res) => {

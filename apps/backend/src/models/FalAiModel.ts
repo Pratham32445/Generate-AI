@@ -1,5 +1,8 @@
 import { BaseModel } from "./BaseModel";
 import { fal } from "@fal-ai/client";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export class FalAiModel extends BaseModel {
   constructor() {
@@ -8,7 +11,7 @@ export class FalAiModel extends BaseModel {
   async trainModel(zipUrl: string, triggerWord: string) {
     const { request_id } = await fal.queue.submit(
       "fal-ai/flux-lora-fast-training",
-      {
+      { 
         input: {
           images_data_url: zipUrl,
           trigger_word: triggerWord,

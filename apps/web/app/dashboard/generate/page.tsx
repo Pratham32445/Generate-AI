@@ -1,10 +1,33 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Brain } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Generate = () => {
+  const [userModels, setUserModels] = useState<();
+  const getUserGeneratedModels = async () => {
+    const tokenData = await axios.get("/api/token");
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/models/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${tokenData.data.token}`,
+        },
+      }
+    );
+    console.log(response.data.models);
+  };
+  getUserGeneratedModels();
   return (
     <div className="p-4 animate-fade-up  opacity-0 [animation-delay:400ms]">
       <div className="mb-10">
@@ -16,12 +39,26 @@ const Generate = () => {
         </p>
       </div>
       <div>
-        <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-          Select Model
-        </h2>
-        <p className="text-neutral-600 text-xs">
-          choose your created Model or create new one
-        </p>
+        <div>
+          <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+            Select Model
+          </h2>
+          <p className="text-neutral-600 text-xs">
+            choose your created Model or create new one
+          </p>
+        </div>
+        <div>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <div className="mt-8">
         <Label htmlFor="prompt my-2">Prompt</Label>

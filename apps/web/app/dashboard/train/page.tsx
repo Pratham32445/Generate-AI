@@ -18,10 +18,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Brain } from "lucide-react";
+import { Brain, LoaderCircle } from "lucide-react";
 import { TrainModelTypes } from "comman/infertypes";
 import UploadImage from "./UploadImage";
 import axios from "axios";
+import Link from "next/link";
 
 const TrainModel = () => {
   const [name, setName] = useState("");
@@ -42,9 +43,11 @@ const TrainModel = () => {
     "Brown"
   );
   const [zipUrl, setZipUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({ status: false, started: false });
+  const [requestid, setRequestid] = useState();
 
   const trainModel = async () => {
+    setIsLoading({ started: false, status: true });
     const input: TrainModelTypes = {
       name,
       age,
@@ -64,8 +67,10 @@ const TrainModel = () => {
         },
       }
     );
+    console.log(response);
     if (response.status == 200) {
-      setIsLoading(true);
+      setIsLoading({ status: true, started: true });
+      setRequestid(response.data.request_id)
     }
   };
   return (
@@ -160,17 +165,16 @@ const TrainModel = () => {
           </div>
           <UploadImage onUploadDone={(zipUrl) => setZipUrl(zipUrl)} />
         </CardContent>
-        {!isLoading ? (
+        {!isLoading.status && (
           <CardFooter className="flex justify-between">
             <Button variant={"secondary"}>Cancel</Button>
             <Button
               disabled={
-                isLoading ||
+                isLoading.status ||
                 !name ||
                 !type ||
                 !ethinicity ||
                 !bald ||
-                !zipUrl ||
                 !eyeColor
               }
               onClick={trainModel}
@@ -179,7 +183,13 @@ const TrainModel = () => {
               <Brain /> Train Model
             </Button>
           </CardFooter>
-        ) : (
+        )}
+        {isLoading.started && (
+          <div className="p-4">
+            <LoaderCircle className="animate-spin" />
+          </div>
+        )}
+        {isLoading.started && (
           <CardFooter>
             <div>
               <p className="text-[#DEFF00]">
@@ -187,9 +197,11 @@ const TrainModel = () => {
               </p>
             </div>
             <div className="mx-4">
-              <Button className="bg-[#bbd414] hover:bg-[#DEFF00]">
-                See Status
-              </Button>
+              <Link href={`/dashboard/models/status/${requestid}`}>
+                <Button className="bg-[#bbd414] hover:bg-[#DEFF00]">
+                  See Status
+                </Button>
+              </Link>
             </div>
           </CardFooter>
         )}
