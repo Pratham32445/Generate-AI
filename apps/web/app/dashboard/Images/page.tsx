@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";
-import Link from "next/link";
 
 const Images = () => {
   const [Images, setImages] = useState();
@@ -21,12 +20,19 @@ const Images = () => {
     );
     setImages(response.data.images);
   };
-  const downloadImage = (imgUrl: string) => {
+  const downloadImage = async (imgUrl: string) => {
+    const response = await fetch(imgUrl);
+    if (!response.ok) return;
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.target = "_blank";
-    link.href = imgUrl;
-    link.download = `${Date.now()}`;
+    link.href = url;
+    const filename = imgUrl.split("/").pop() || "downloaded-image.jpg";
+    link.download = filename;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
   useEffect(() => {
     getUserAllImages();
