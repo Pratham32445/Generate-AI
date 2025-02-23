@@ -104,8 +104,8 @@ const Generate = () => {
                     <SelectValue placeholder="Select Model" />
                   </SelectTrigger>
                   <SelectContent>
-                    {userModels.map((model) => (
-                      <SelectItem key={model.Id} value={model.Id}>
+                    {userModels.map((model, Idx) => (
+                      <SelectItem key={Idx} value={model.Id}>
                         {model.name}
                       </SelectItem>
                     ))}
@@ -138,12 +138,17 @@ const Generate = () => {
         </div>
       ) : (
         <div>
-          <p className="leading-7 [&:not(:first-child)]:mt-6">
-            Image is in the Generating Process Please Wait !!
+          <p className="leading-7 [&:not(:first-child)]:mt-6 text-center mt-[50px]">
+            Please Wait We are working on your Prompt
+            <LoaderCircle className="animate-spin" />
           </p>
         </div>
       )}
-      <OutputImage open={isGenerated} setOpen={setIsGenerated} imageUrl={imgUrl!}/>
+      <OutputImage
+        open={isGenerated}
+        setOpen={setIsGenerated}
+        imageUrl={imgUrl!}
+      />
     </div>
   );
 };

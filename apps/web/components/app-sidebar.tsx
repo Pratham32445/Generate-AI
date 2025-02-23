@@ -51,14 +51,14 @@ const data = [
     icon: Image,
   },
   {
-    name: "Profile",
-    link: "/user/profile",
-    icon: CircleUserRound,
-  },
-  {
     name: "Add Credit",
     link: "/dashboard/add-credit",
     icon: CreditCard,
+  },
+  {
+    name: "Profile",
+    link: "/user/profile",
+    icon: CircleUserRound,
   },
 ];
 
@@ -85,10 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarMenu>
             {data.map(({ link, name, icon: Icon }, idx) => (
-              <SidebarMenuItem
-                key={idx}
-                className="my-2 mx-1"
-              >
+              <SidebarMenuItem key={idx} className="my-2 mx-1">
                 {" "}
                 <SidebarMenuButton className="flex items-center">
                   <Icon />

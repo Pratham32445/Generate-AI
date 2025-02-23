@@ -66,6 +66,7 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
     parsedBody.data.prompt,
     model?.tensorPath!
   );
+  console.log(parsedBody.data.modelId);
   const image = await prismaClient.outputImages.create({
     data: {
       imageUrl: "",

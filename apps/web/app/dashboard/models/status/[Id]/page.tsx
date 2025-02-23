@@ -4,7 +4,7 @@ import axios from "axios";
 const ModelStatus = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ Id: string }>;
 }) => {
   const Id = (await params).Id;
   

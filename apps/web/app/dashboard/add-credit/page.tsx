@@ -60,7 +60,7 @@ const AddCredit = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mt-4">
         {Array.from({ length: 4 }).map(() => (
           <Card
-            key={new Date.now()}
+            key={Date.now()}
             className={`col-span-1 bg-teal-500/5 border-2 border-neutral-800/50 rounded-2xl p-6 hover:border-teal-700 hover:bg-teal-500/10 transition-all duration-300 flex flex-col gap-12 w-full`}
           >
             <CardHeader>

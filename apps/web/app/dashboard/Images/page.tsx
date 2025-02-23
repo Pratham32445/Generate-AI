@@ -5,9 +5,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";
+import { downloadImage } from "@/utils/DownloadImage";
 
 const Images = () => {
-  const [Images, setImages] = useState();
+  const [Images, setImages] = useState([]);
   const getUserAllImages = async () => {
     const tokenData = await axios.get("/api/token");
     const response = await axios.get(
@@ -20,29 +21,16 @@ const Images = () => {
     );
     setImages(response.data.images);
   };
-  const downloadImage = async (imgUrl: string) => {
-    const response = await fetch(imgUrl);
-    if (!response.ok) return;
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    const filename = imgUrl.split("/").pop() || "downloaded-image.jpg";
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  };
+
   useEffect(() => {
     getUserAllImages();
   }, []);
 
   return (
     <div>
-      <div className="flex justify-center flex-wrap gap-4 p-4">
+      <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
         {Images &&
-          Images.reverse().map((image) => (
+          Images.reverse().map((image: { Id: string; imageUrl: string }) => (
             <Card key={image.Id}>
               <CardContent className="p-0 relative w-[300px] h-[300px]">
                 <Image src={image.imageUrl} fill alt="Generated" />
