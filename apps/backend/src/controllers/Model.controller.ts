@@ -90,7 +90,7 @@ router.get("/models/user", authMiddleware, async (req, res) => {
   const models = await prismaClient.model.findMany({
     where: {
       userId: user?.Id,
-      status : "Generated"
+      status: "Generated",
     },
   });
   res.json({

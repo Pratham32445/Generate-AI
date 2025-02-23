@@ -8,6 +8,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { s3client } from "./aws/s3";
 import cors from "cors";
 import { fal } from "@fal-ai/client";
+import { authMiddleware } from "./middlewares/authMiddleware";
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.post("/fal-ai/webhook/generate", async (req, res) => {
   });
   res.json({
     message: "Webhook recieved",
+    imageUrl: req.body.payload.images[0].url,
   });
 });
 
@@ -105,6 +107,45 @@ app.get("/model/train/status", async (req, res) => {
     res.status(404).json({
       Message: "We can't Find this Model",
     });
+  }
+});
+
+app.get("/model/image", async (req, res) => {
+  try {
+    const Id = req.query.imageId as string;
+    const image = await prismaClient.outputImages.findFirst({
+      where: {
+        Id,
+      },
+    });
+    res.json({
+      image,
+    });
+  } catch (error) {
+    res.status(404).json({
+      Message: "We can't Find this Model",
+    });
+  }
+});
+
+app.get("/user/images", authMiddleware, async (req, res) => {
+  try {
+    const user = await prismaClient.user.findFirst({
+      where: {
+        // @ts-ignore
+        email: req.user.email!,
+      },
+    });
+    const images = await prismaClient.outputImages.findMany({
+      where: {
+        userId: user?.Id,
+      },
+    });
+    res.json({
+      images,
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 

@@ -7,6 +7,7 @@ import {
   BrainCircuit,
   CircleUserRound,
   CreditCard,
+  Image,
 } from "lucide-react";
 
 import {
@@ -43,6 +44,11 @@ const data = [
     name: "Models",
     link: "/dashboard/models",
     icon: Cpu,
+  },
+  {
+    name: "Images",
+    link: "/dashboard/Images",
+    icon: Image,
   },
   {
     name: "Profile",
