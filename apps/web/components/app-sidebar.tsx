@@ -1,5 +1,13 @@
 import * as React from "react";
-import { Brain } from "lucide-react";
+import {
+  Brain,
+  House,
+  Cable,
+  Cpu,
+  BrainCircuit,
+  CircleUserRound,
+  CreditCard,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -19,22 +27,32 @@ const data = [
   {
     name: "Home",
     link: "/dashboard",
+    icon: House,
   },
   {
     name: "Generate",
     link: "/dashboard/generate",
+    icon: BrainCircuit,
   },
   {
     name: "Train Model",
     link: "/dashboard/train",
+    icon: Cable,
   },
   {
     name: "Models",
     link: "/dashboard/models",
+    icon: Cpu,
   },
   {
     name: "Profile",
     link: "/user/profile",
+    icon: CircleUserRound,
+  },
+  {
+    name: "Add Credit",
+    link: "/dashboard/add-credit",
+    icon: CreditCard,
   },
 ];
 
@@ -60,10 +78,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.map(({ link, name }, idx) => (
-              <SidebarMenuItem key={idx} className="my-2">
+            {data.map(({ link, name, icon: Icon }, idx) => (
+              <SidebarMenuItem
+                key={idx}
+                className="my-2 mx-1"
+              >
                 {" "}
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton className="flex items-center">
+                  <Icon />
                   <Link href={link} className="font-medium">
                     {name}
                   </Link>
@@ -75,7 +97,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
-        <Signout/>
+        <Signout />
       </SidebarFooter>
     </Sidebar>
   );
