@@ -56,6 +56,12 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       Id: parsedBody.data.modelId,
     },
   });
+  const user = await prismaClient.user.findFirst({
+    where: {
+      // @ts-ignore
+      email: req.user.email!,
+    },
+  });
   const request_id = await falAIModel.generateImage(
     parsedBody.data.prompt,
     model?.tensorPath!
@@ -65,7 +71,7 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       imageUrl: "",
       modelId: parsedBody.data.modelId,
       prompt: parsedBody.data.prompt,
-      userId: USER_ID,
+      userId: user?.Id!,
       falAiRequestId: request_id,
     },
   });
@@ -81,7 +87,7 @@ router.get("/models/user", authMiddleware, async (req, res) => {
       email: req.user.email!,
     },
   });
-  const models = await prismaClient.model.findFirst({
+  const models = await prismaClient.model.findMany({
     where: {
       userId: user?.Id,
       status : "Generated"

@@ -41,6 +41,7 @@ app.get("/image/bulk", async (req, res) => {
 });
 
 app.post("/fal-ai/webhook/generate", async (req, res) => {
+  console.log("webhook calling", req.body.payload.images);
   const request_id = req.body.request_id;
   await prismaClient.outputImages.updateMany({
     where: {
@@ -48,7 +49,7 @@ app.post("/fal-ai/webhook/generate", async (req, res) => {
     },
     data: {
       status: "Generated",
-      imageUrl: req.body.image_url,
+      imageUrl: req.body.payload.images[0].url,
     },
   });
   res.json({
@@ -57,7 +58,7 @@ app.post("/fal-ai/webhook/generate", async (req, res) => {
 });
 
 app.post("/fal-ai/webhook/train", async (req, res) => {
-  console.log("webhook calling",req.body);
+  console.log("webhook calling", req.body);
   const request_id = req.body.request_id;
   await prismaClient.model.updateMany({
     where: {
