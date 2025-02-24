@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrainModelTypes, GenerateImageTypes } from "comman/infertypes";
-import OutputImage from "./OutputImage";
+import OutputImage from "@/components/OutputImage";
 
 const Generate = () => {
   const [userModels, setUserModels] = useState<TrainModelTypes[] | null>(null);
@@ -21,7 +21,7 @@ const Generate = () => {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
-  const [imgUrl, setImgUrl] = useState("");
+  const [generatedImage, setGeneratedImage] = useState("");
 
   const getImage = async (imageId: string) => {
     const image = await axios.get(
@@ -65,7 +65,7 @@ const Generate = () => {
         if (resImage.data.image.status == "Generated") {
           setIsGenerated(true);
           setIsLoading(false);
-          setImgUrl(resImage.data.image.imageUrl);
+          setGeneratedImage(resImage.data.image);
           clearInterval(intervalId);
         }
       }, 2000);
@@ -137,17 +137,19 @@ const Generate = () => {
           </div>
         </div>
       ) : (
-        <div>
-          <p className="leading-7 [&:not(:first-child)]:mt-6 text-center mt-[50px]">
-            Please Wait We are working on your Prompt
+        <div className="flex justify-center h-[50vh] items-center">
+          <div>
             <LoaderCircle className="animate-spin" />
-          </p>
+            <p className="leading-7">
+              Please Wait We are working on your Prompt
+            </p>
+          </div>
         </div>
       )}
       <OutputImage
         open={isGenerated}
         setOpen={setIsGenerated}
-        imageUrl={imgUrl!}
+        image={generatedImage}
       />
     </div>
   );

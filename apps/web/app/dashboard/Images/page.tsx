@@ -6,9 +6,12 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";
 import { downloadImage } from "@/utils/DownloadImage";
+import OutputImage from "@/components/OutputImage";
 
 const Images = () => {
   const [Images, setImages] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [image, setImage] = useState(null);
   const getUserAllImages = async () => {
     const tokenData = await axios.get("/api/token");
     const response = await axios.get(
@@ -31,7 +34,14 @@ const Images = () => {
       <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
         {Images &&
           Images.reverse().map((image: { Id: string; imageUrl: string }) => (
-            <Card key={image.Id}>
+            <Card
+              key={image.Id}
+              className="cursor-pointer"
+              onClick={() => {
+                setOpen(true);
+                setImage(image);
+              }}
+            >
               <CardContent className="p-0 relative w-[300px] h-[300px]">
                 <Image src={image.imageUrl} fill alt="Generated" />
               </CardContent>
@@ -42,6 +52,7 @@ const Images = () => {
               </div>
             </Card>
           ))}
+        <OutputImage open={open} setOpen={setOpen} image={image} />
       </div>
     </div>
   );
