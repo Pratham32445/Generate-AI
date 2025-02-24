@@ -23,7 +23,7 @@ router.post("/model/training", authMiddleware, async (req, res) => {
       email: req.user.email!,
     },
   });
-  if (user?.credits! < TRAIN_MODEL) {
+  if (+user?.credits! < TRAIN_MODEL) {
     res.status(401).send({
       message: "Not Enough Credits to Train Model",
     });
@@ -68,7 +68,7 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       email: req.user.email!,
     },
   });
-  if (user?.credits! < GENERATE_IMAGE) {
+  if (+user?.credits! < GENERATE_IMAGE) {
     res.status(411).json({
       message: "Not Enough Credits to Generate Image",
     });
@@ -92,7 +92,7 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       Id: user?.Id!,
     },
     data: {
-      credits: new Decimal(user?.credits! - GENERATE_IMAGE),
+      credits: +user?.credits! - GENERATE_IMAGE,
     },
   });
   res.json({

@@ -51,7 +51,7 @@ const Generate = () => {
         prompt,
         modelId,
       };
-      const tokenData = await axios.get("/api/token");
+      const tokenData = await axios.get(`/api/token`);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/generate`,
         input,

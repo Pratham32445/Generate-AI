@@ -9,7 +9,7 @@ const User = async () => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) return;
   const tokenData = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTION_URL}/api/token`
+    `${process.env.NEXT_PUBLIC_PRODUCTION_URL}/api/token?email=${session.user.email}`
   );
   const userData = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`,
@@ -19,8 +19,8 @@ const User = async () => {
       },
     }
   );
-  console.log(userData.data);
   if (!userData) return;
+  console.log(userData.data.user.credits)
   return (
     <div className="flex items-center gap-4 px-4">
       <Link href={"/user/profile"}>
@@ -29,9 +29,7 @@ const User = async () => {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </Link>
-      <div>
-        <p>Credit : ${userData.data.user.credits}</p>
-      </div>
+      <div><p>Credit : ${userData.data.user.credits && Number(userData.data.user.credits).toFixed(2)}</p></div>
     </div>
   );
 };

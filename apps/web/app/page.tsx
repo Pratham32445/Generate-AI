@@ -1,5 +1,7 @@
-import { DarkModeToggle } from "@/components/Darkmodetoggle";
+import { Footer } from "@/components/Footer";
+import { HowItWorks } from "@/components/Howitworks";
 import Navbar from "@/components/Navbar";
+import Pricing from "@/components/Pricing";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
@@ -52,11 +54,13 @@ const Home = () => {
           </div>
           {/* CTA Section */}
           <div className="relative opacity-0 animate-fade-up [animation-delay:2200ms]">
-            <span className="mb-4 block text-sm">Free for 24hrs</span>
             <Button className="bg-[#ffb7b7] text-black hover:bg-[#ffb7b7]/90">
               Try it Now
             </Button>
           </div>{" "}
+          <HowItWorks/>
+          <Pricing/>
+          <Footer/>
         </div>
       </main>
     </div>
