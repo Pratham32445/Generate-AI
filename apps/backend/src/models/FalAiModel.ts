@@ -30,4 +30,14 @@ export class FalAiModel extends BaseModel {
     });
     return request_id;
   }
+  async generateImageAsync() {
+    const response = await fal.subscribe("fal-ai/flux-lora",{
+      input : {
+        prompt : "Generate a head shot for the user in front of the white background"
+      }
+    })
+    return {
+      imageUrl : response.data.images[0].url;
+    }
+  }
 }

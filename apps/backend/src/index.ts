@@ -9,6 +9,7 @@ import { s3client } from "./aws/s3";
 import cors from "cors";
 import { fal } from "@fal-ai/client";
 import { authMiddleware } from "./middlewares/authMiddleware";
+import webhookRouter from "./webhook/Model.webhook";
 
 const app = express();
 
@@ -23,56 +24,20 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
-const USER_ID = "abc";
-
 app.use("/ai", ModelRouter);
 app.use("/bundle", PackRouter);
+app.use("/", webhookRouter);
 
 app.get("/image/bulk", async (req, res) => {
   const Ids = req.query.images as string[];
   const images = await prismaClient.outputImages.findMany({
     where: {
       Id: { in: Ids },
-      userId: USER_ID,
+      userId: "abc",
     },
   });
   res.json({
     images,
-  });
-});
-
-app.post("/fal-ai/webhook/generate", async (req, res) => {
-  console.log("webhook calling", req.body.payload.images);
-  const request_id = req.body.request_id;
-  await prismaClient.outputImages.updateMany({
-    where: {
-      falAiRequestId: request_id,
-    },
-    data: {
-      status: "Generated",
-      imageUrl: req.body.payload.images[0].url,
-    },
-  });
-  res.json({
-    message: "Webhook recieved",
-    imageUrl: req.body.payload.images[0].url,
-  });
-});
-
-app.post("/fal-ai/webhook/train", async (req, res) => {
-  console.log("webhook calling", req.body);
-  const request_id = req.body.request_id;
-  await prismaClient.model.updateMany({
-    where: {
-      falAiRequestId: request_id,
-    },
-    data: {
-      status: "Generated",
-      tensorPath: req.body.payload.diffusers_lora_file.url,
-    },
-  });
-  res.json({
-    message: "Webhook recieved",
   });
 });
 

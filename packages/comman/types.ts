@@ -7,6 +7,7 @@ export const user = z.object({
 });
 
 export const TrainModel = z.object({
+  Id : z.string().optional(),
   name: z.string(),
   type: z.enum(["Man", "Women", "Other"]),
   age: z.number(),

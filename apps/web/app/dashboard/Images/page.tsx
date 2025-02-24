@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon, Plus } from "lucide-react";
 import { downloadImage } from "@/utils/DownloadImage";
 import OutputImage from "@/components/OutputImage";
+import Link from "next/link";
 
 const Images = () => {
   const [Images, setImages] = useState([]);
@@ -31,6 +31,11 @@ const Images = () => {
 
   return (
     <div>
+      <div className="flex justify-end px-10 py-2">
+        <Link href="/dashboard/generate">
+          <Plus />
+        </Link>
+      </div>
       <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
         {Images &&
           Images.reverse().map((image: { Id: string; imageUrl: string }) => (
@@ -46,9 +51,11 @@ const Images = () => {
                 <Image src={image.imageUrl} fill alt="Generated" />
               </CardContent>
               <div className="p-4">
-                <Button onClick={() => downloadImage(image.imageUrl)}>
-                  <DownloadIcon />
-                </Button>
+                <DownloadIcon
+                  onClick={() => downloadImage(image.imageUrl)}
+                  width={20}
+                  height={20}
+                />
               </div>
             </Card>
           ))}

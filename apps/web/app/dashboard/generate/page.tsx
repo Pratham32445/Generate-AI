@@ -105,7 +105,7 @@ const Generate = () => {
                   </SelectTrigger>
                   <SelectContent>
                     {userModels.map((model, Idx) => (
-                      <SelectItem key={Idx} value={model.Id}>
+                      <SelectItem key={Idx} value={model.Id!}>
                         {model.name}
                       </SelectItem>
                     ))}
@@ -137,8 +137,8 @@ const Generate = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-center h-[50vh] items-center">
-          <div>
+        <div>
+          <div className="flex flex-col items-center justify-center h-[50vh]">
             <LoaderCircle className="animate-spin" />
             <p className="leading-7">
               Please Wait We are working on your Prompt
