@@ -69,9 +69,24 @@ const Models = async () => {
         <h3 className="mt-10 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
           Trainded Models
         </h3>
-        {GeneratedModel.map(() => (
-          <div></div>
-        ))}
+        <div className="flex flex-wrap gap-4 mt-[10px]">
+          {GeneratedModel.map((model) => (
+            <div key={model.Id}>
+              <Card className="border-2 border-neutral-800/50 rounded-2xl  border-green-700 bg-green-500/10 transition-all duration-300 gap-12 p-2 cursor-pointer">
+                <CardHeader>
+                  <CardTitle>{model.name}</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>{model.Id}</p>
+                </CardContent>
+                <CardFooter>
+                  <p>{model.status}</p>
+                </CardFooter>
+              </Card>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

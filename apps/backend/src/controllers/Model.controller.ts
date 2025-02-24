@@ -4,29 +4,35 @@ import prismaClient from "db";
 import { FalAiModel } from "../models/FalAiModel";
 import { authMiddleware } from "../middlewares/authMiddleware";
 
+const TRAIN_MODEL = 4;
+const GENERATE_IMAGE = 0.4;
+
 const router = express.Router();
 
 const falAIModel = new FalAiModel();
 
-const USER_ID = "abc";
-
 router.post("/model/training", authMiddleware, async (req, res) => {
   const parsedBody = TrainModel.safeParse(req.body);
-  console.log(parsedBody.error);
   if (!parsedBody.success)
     return res.status(411).json({
       message: "Invalid Inputs",
     });
-  const request_id = await falAIModel.trainModel(
-    parsedBody.data.zipUrl,
-    parsedBody.data.name
-  );
   const user = await prismaClient.user.findFirst({
     where: {
       // @ts-ignore
       email: req.user.email!,
     },
   });
+  if (user?.credits! < TRAIN_MODEL) {
+    res.status(401).send({
+      message: "Not Enough Credits to Train Model",
+    });
+    return;
+  }
+  const request_id = await falAIModel.trainModel(
+    parsedBody.data.zipUrl,
+    parsedBody.data.name
+  );
   const data = await prismaClient.model.create({
     data: {
       name: parsedBody.data.name,
@@ -62,11 +68,16 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       email: req.user.email!,
     },
   });
+  if (user?.credits! < GENERATE_IMAGE) {
+    res.status(411).json({
+      message: "Not Enough Credits to Generate Image",
+    });
+    return;
+  }
   const request_id = await falAIModel.generateImage(
     parsedBody.data.prompt,
     model?.tensorPath!
   );
-  console.log(parsedBody.data.modelId);
   const image = await prismaClient.outputImages.create({
     data: {
       imageUrl: "",
@@ -74,6 +85,14 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       prompt: parsedBody.data.prompt,
       userId: user?.Id!,
       falAiRequestId: request_id,
+    },
+  });
+  await prismaClient.user.update({
+    where: {
+      Id: user?.Id!,
+    },
+    data: {
+      credits: new Decimal(user?.credits! - GENERATE_IMAGE),
     },
   });
   res.json({

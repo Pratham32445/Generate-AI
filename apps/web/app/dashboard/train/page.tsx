@@ -21,7 +21,8 @@ import { Button } from "@/components/ui/button";
 import { Brain, LoaderCircle } from "lucide-react";
 import { TrainModelTypes } from "comman/infertypes";
 import UploadImage from "./UploadImage";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
 import Link from "next/link";
 
 const TrainModel = () => {
@@ -47,30 +48,35 @@ const TrainModel = () => {
   const [requestid, setRequestid] = useState();
 
   const trainModel = async () => {
-    setIsLoading({ started: false, status: true });
-    const input: TrainModelTypes = {
-      name,
-      age,
-      bald,
-      ethinicity,
-      eyeColor,
-      type,
-      zipUrl,
-    };
-    const tokenData = await axios.get("/api/token");
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/training`,
-      input,
-      {
-        headers: {
-          Authorization: `Bearer ${tokenData.data.token}`,
-        },
+    try {
+      setIsLoading({ started: false, status: true });
+      const input: TrainModelTypes = {
+        name,
+        age,
+        bald,
+        ethinicity,
+        eyeColor,
+        type,
+        zipUrl,
+      };
+      const tokenData = await axios.get("/api/token");
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/training`,
+        input,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenData.data.token}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.status == 200) {
+        setIsLoading({ status: true, started: true });
+        setRequestid(response.data.request_id);
       }
-    );
-    console.log(response);
-    if (response.status == 200) {
-      setIsLoading({ status: true, started: true });
-      setRequestid(response.data.request_id)
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setIsLoading({ status: false, started: false });
     }
   };
   return (

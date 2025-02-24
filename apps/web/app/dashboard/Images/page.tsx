@@ -7,6 +7,7 @@ import { DownloadIcon, Plus } from "lucide-react";
 import { downloadImage } from "@/utils/DownloadImage";
 import OutputImage from "@/components/OutputImage";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const Images = () => {
   const [Images, setImages] = useState([]);
@@ -22,6 +23,7 @@ const Images = () => {
         },
       }
     );
+    console.log(response.data.images);
     setImages(response.data.images);
   };
 
@@ -37,7 +39,7 @@ const Images = () => {
         </Link>
       </div>
       <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
-        {Images &&
+        {Images.length > 0 ? (
           Images.reverse().map((image: { Id: string; imageUrl: string }) => (
             <Card
               key={image.Id}
@@ -58,7 +60,17 @@ const Images = () => {
                 />
               </div>
             </Card>
-          ))}
+          ))
+        ) : (
+          <div>
+            <div>
+              <p>No Images Found</p>
+              <Link href={"/dashboard/generate"}>
+                <Button>Generate One</Button>
+              </Link>
+            </div>
+          </div>
+        )}
         <OutputImage open={open} setOpen={setOpen} image={image} />
       </div>
     </div>

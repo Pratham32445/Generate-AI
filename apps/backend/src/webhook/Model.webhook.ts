@@ -39,4 +39,4 @@ webhookRouter.post("/fal-ai/webhook/train", async (req, res) => {
   });
 });
 
-export default appRouter;
+export default webhookRouter;

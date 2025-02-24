@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { TrainModelTypes, GenerateImageTypes } from "comman/infertypes";
 import OutputImage from "@/components/OutputImage";
+import { toast } from "sonner";
 
 const Generate = () => {
   const [userModels, setUserModels] = useState<TrainModelTypes[] | null>(null);
@@ -44,31 +45,39 @@ const Generate = () => {
     setUserModels(response.data.models);
   };
   const GenerateImage = async () => {
-    setIsLoading(true);
-    const input: GenerateImageTypes = {
-      prompt,
-      modelId,
-    };
-    const tokenData = await axios.get("/api/token");
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/generate`,
-      input,
-      {
-        headers: {
-          Authorization: `Bearer ${tokenData.data.token}`,
-        },
-      }
-    );
-    if (response.status == 200) {
-      const intervalId = setInterval(async () => {
-        const resImage = await getImage(response.data.image);
-        if (resImage.data.image.status == "Generated") {
-          setIsGenerated(true);
-          setIsLoading(false);
-          setGeneratedImage(resImage.data.image);
-          clearInterval(intervalId);
+    try {
+      setIsLoading(true);
+      const input: GenerateImageTypes = {
+        prompt,
+        modelId,
+      };
+      const tokenData = await axios.get("/api/token");
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/model/generate`,
+        input,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenData.data.token}`,
+          },
         }
-      }, 2000);
+      );
+      if (response.status == 200) {
+        const intervalId = setInterval(async () => {
+          const resImage = await getImage(response.data.image);
+          if (resImage.data.image.status == "Generated") {
+            setIsGenerated(true);
+            setIsLoading(false);
+            setGeneratedImage(resImage.data.image);
+            clearInterval(intervalId);
+          }
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsGenerated(false);
+      setIsLoading(false);
+      setPrompt("");
+      toast.error(error.response.data.message);
     }
   };
 

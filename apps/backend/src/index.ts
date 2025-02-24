@@ -26,6 +26,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use("/ai", ModelRouter);
 app.use("/bundle", PackRouter);
+// webhook route
 app.use("/", webhookRouter);
 
 app.get("/image/bulk", async (req, res) => {
@@ -112,6 +113,18 @@ app.get("/user/images", authMiddleware, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+app.get("/user/me", authMiddleware, async (req, res) => {
+  const user = await prismaClient.user.findFirst({
+    where: {
+      // @ts-ignore
+      email: req.user.email!,
+    },
+  });
+  return res.json({
+    user,
+  });
 });
 
 app.options("/pre-signed-url", (req, res) => {

@@ -8,6 +8,7 @@ import {
   CircleUserRound,
   CreditCard,
   Image,
+  Package,
 } from "lucide-react";
 
 import {
@@ -54,6 +55,11 @@ const data = [
     name: "Add Credit",
     link: "/dashboard/add-credit",
     icon: CreditCard,
+  },
+  {
+    name: "Packs",
+    link: "/dashboard/packs",
+    icon: Package,
   },
   {
     name: "Profile",
