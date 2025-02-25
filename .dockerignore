@@ -1,0 +1,50 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+**/node_modules
+**/.pnpm-store
+
+# Build outputs
+**/dist
+**/.next
+**/.turbo
+**/.cache
+**/build
+
+# Development files
+**/.env*
+**/*.log
+**/.DS_Store
+**/coverage
+**/.coverage
+**/.nyc_output
+**/.idea
+**/.vscode
+**/*.md
+**/*.test.*
+**/__tests__
+**/__mocks__
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+.github
+.husky
+README.md
+
+# docker run -d -p 8080:8080 \
+#   -e FAL_API_KEY="a2133ad5-3e44-4eee-8f6d-754dde8e7f79:8fd73316cf0dad4edb8432a3130c2345" \
+#   -e WEBHOOK_URL="https://ringtones-experiences-affiliates-relying.trycloudflare.com" \
+#   -e ACCESS_KEY_ID="9fc3b2920026edf2adb00c7e724a9c7b" \
+#   -e SECRET_ACCESS_KEY="bf2455e8a0948ec635ae1a8e75ab60888a8fb33c4c02478478625547c23a9fbd" \ 
+#   -e BUCKET_NAME="photo-ai" \
+#   -e END_POINT="https://5ee470cf7f9f22ff352a4f05d3cfb264.r2.cloudflarestorage.com" \
+#   -e CLIENT_ID="1082797915247-ajrk7o1htq1n08abh4gjdaefqvhqnfsv.apps.googleusercontent.com" \
+#   -e CLIENT_SECRET="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" \
+#   -e JWT_SECRET="your_super_secret_key" \
+#   --name generate-ai-backend generate-ai-backend-1

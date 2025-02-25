@@ -11,6 +11,7 @@ const User = async () => {
   const tokenData = await axios.get(
     `${process.env.NEXT_PUBLIC_PRODUCTION_URL}/api/token?email=${session.user.email}`
   );
+  console.log(tokenData);
   const userData = await axios.get(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`,
     {

@@ -24,6 +24,10 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
+app.get("/",(req,res)=>{
+  res.send("working");
+})
+
 app.use("/ai", ModelRouter);
 app.use("/bundle", PackRouter);
 // webhook route
