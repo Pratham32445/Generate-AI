@@ -87,14 +87,6 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       falAiRequestId: request_id,
     },
   });
-  await prismaClient.user.update({
-    where: {
-      Id: user?.Id!,
-    },
-    data: {
-      credits: +user?.credits! - GENERATE_IMAGE,
-    },
-  });
   res.json({
     image: image.Id,
   });

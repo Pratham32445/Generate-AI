@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { DownloadIcon, Plus } from "lucide-react";
+import { DownloadIcon, Plus, Trash2 } from "lucide-react";
 import { downloadImage } from "@/utils/DownloadImage";
 import OutputImage from "@/components/OutputImage";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; 
 
 const Images = () => {
   const [Images, setImages] = useState([]);
@@ -23,7 +23,6 @@ const Images = () => {
         },
       }
     );
-    console.log(response.data.images);
     setImages(response.data.images);
   };
 
@@ -52,12 +51,13 @@ const Images = () => {
               <CardContent className="p-0 relative w-[300px] h-[300px]">
                 <Image src={image.imageUrl} fill alt="Generated" />
               </CardContent>
-              <div className="p-4">
+              <div className="p-4 flex items-center gap-4">
                 <DownloadIcon
                   onClick={() => downloadImage(image.imageUrl)}
                   width={20}
                   height={20}
                 />
+                <Trash2 width={20} height={20} />
               </div>
             </Card>
           ))

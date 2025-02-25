@@ -1,0 +1,80 @@
+FROM node:18-alpine AS builder
+
+# Install necessary build dependencies
+RUN apk update && \
+    apk add --no-cache libc6-compat python3 make g++ openssl3
+
+# Install global dependencies
+RUN npm install -g pnpm turbo
+
+# Set working directory
+WORKDIR /app
+
+# Copy files for turbo prune
+COPY . .
+RUN turbo prune --scope=backend --docker
+
+# Installer stage
+FROM node:18-alpine AS installer
+
+# Install necessary dependencies
+RUN apk update && \
+    apk add --no-cache libc6-compat openssl3
+
+WORKDIR /app
+
+# First install dependencies (as they change less often)
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install --frozen-lockfile
+
+# Build the project
+COPY --from=builder /app/out/full/ .
+
+# Build the application
+RUN pnpm run db:generate && \
+    pnpm turbo run build --filter=backend... --no-daemon
+
+# Find and copy Prisma engine file
+RUN find . -name "libquery_engine-linux-musl-openssl-3.0.x.so.node" | head -n 1 | xargs -I {} cp {} /tmp/
+
+# Runner stage
+FROM node:18-alpine AS runner
+
+WORKDIR /app
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 appuser && \
+    chown -R appuser:nodejs /app
+
+# Install production dependencies
+RUN apk add --no-cache libc6-compat openssl3
+
+# Copy necessary files
+COPY --from=installer /app/package.json .
+COPY --from=installer /app/pnpm-lock.yaml .
+COPY --from=installer /app/apps/backend/package.json ./apps/backend/package.json
+COPY --from=installer /app/apps/backend/dist ./apps/backend/dist
+COPY --from=installer /app/packages/db ./packages/db
+COPY --from=installer /app/packages/comman ./packages/comman
+
+# Create Prisma client directory and copy engine file
+RUN mkdir -p packages/db/.prisma/client/
+COPY --from=installer --chown=appuser:nodejs /tmp/libquery_engine-linux-musl-openssl-3.0.x.so.node ./packages/db/.prisma/client/
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+# Switch to non-root user
+USER appuser
+
+# Expose the port
+EXPOSE 3000
+
+# Start the application
+CMD ["node", "apps/backend/dist/index.js"]

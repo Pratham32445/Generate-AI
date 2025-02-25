@@ -19,8 +19,8 @@ const User = async () => {
       },
     }
   );
-  if (!userData) return;
-  console.log(userData.data.user.credits)
+  console.log(userData);
+  if (!userData || !userData.data || !userData.data.user) return;
   return (
     <div className="flex items-center gap-4 px-4">
       <Link href={"/user/profile"}>
