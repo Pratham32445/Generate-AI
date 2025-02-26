@@ -8,6 +8,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types", 
     "start:backend": "cd ./apps/backend && pnpm run start",
+    "start:frontend" : "cd ./apps/web && pnpm run start",
     "db:generate" : "cd ./packages/db && pnpm prisma generate && cd ../../"
   },
   "devDependencies": {

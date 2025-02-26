@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Brain, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import {
   Select,
   SelectContent,
@@ -22,7 +22,11 @@ const Generate = () => {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
-  const [generatedImage, setGeneratedImage] = useState("");
+  const [generatedImage, setGeneratedImage] = useState<{
+    imageUrl: string;
+    prompt: string;
+    createdAt: Date;
+  }>({ imageUrl: "", prompt: "", createdAt: new Date()});
 
   const getImage = async (imageId: string) => {
     const image = await axios.get(
@@ -73,11 +77,15 @@ const Generate = () => {
         }, 2000);
       }
     } catch (error) {
-      console.log(error);
-      setIsGenerated(false);
-      setIsLoading(false);
-      setPrompt("");
-      toast.error(error.response.data.message);
+      if (isAxiosError(error)) {
+        console.log(error);
+        setIsGenerated(false);
+        setIsLoading(false);
+        setPrompt("");
+        if (error) {
+          toast.error(error?.response?.data.message);
+        }
+      }
     }
   };
 

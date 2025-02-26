@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Brain, LoaderCircle } from "lucide-react";
 import { TrainModelTypes } from "comman/infertypes";
 import UploadImage from "./UploadImage";
-import axios, { AxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -75,8 +75,10 @@ const TrainModel = () => {
         setRequestid(response.data.request_id);
       }
     } catch (error) {
-      toast.error(error.response.data.message);
-      setIsLoading({ status: false, started: false });
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data.message);
+        setIsLoading({ status: false, started: false });
+      }
     }
   };
   return (
@@ -111,7 +113,11 @@ const TrainModel = () => {
             </div>
             <div className="w-full md:w-2/5 items-center">
               <Label>Gender</Label>
-              <Select onValueChange={(value) => setType(value)}>
+              <Select
+                onValueChange={(value) =>
+                  setType(value as "Man" | "Women" | "Other")
+                }
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
@@ -124,7 +130,21 @@ const TrainModel = () => {
             </div>
             <div className="w-full md:w-2/5 items-center">
               <Label>Ethinicty</Label>
-              <Select onValueChange={(value) => setEthinicity(value)}>
+              <Select
+                onValueChange={(value) =>
+                  setEthinicity(
+                    value as
+                      | "Black"
+                      | "Asian_American"
+                      | "East_Asian"
+                      | "South_East_Asian"
+                      | "South_Asian"
+                      | "Middle_Eastern"
+                      | "Pacific"
+                      | "Hispanic"
+                  )
+                }
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Ethinicity" />
                 </SelectTrigger>
@@ -144,7 +164,11 @@ const TrainModel = () => {
             </div>
             <div className="w-full md:w-2/5 items-center">
               <Label>Eye Color</Label>
-              <Select onValueChange={(value) => setEyeColor(value)}>
+              <Select
+                onValueChange={(value) =>
+                  setEyeColor(value as "Brown" | "Blue" | "Hazel" | "Gray")
+                }
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="EyeColor" />
                 </SelectTrigger>

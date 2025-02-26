@@ -14,7 +14,7 @@ const OutputImage = ({
   setOpen,
 }: {
   open: boolean;
-  image: any;
+  image: { imageUrl: string; prompt: string; createdAt: Date };
   setOpen: (open: boolean) => void;
 }) => {
   return (

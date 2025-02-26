@@ -1,9 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React from "react";
 
 const PackGenerate = ({ packId }: { packId: string }) => {
-  const [count, setCount] = useState("");
+  console.log(packId);
+  // const [count, setCount] = useState("");
   return (
     <div>
       <Button className="my-2">Generate</Button>

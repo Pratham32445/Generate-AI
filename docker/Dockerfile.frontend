@@ -1,0 +1,29 @@
+FROM node:18-alpine AS builder
+
+RUN apk update && \
+    apk add --no-cache libc6-compat python3 make g++ openssl3 && \
+    npm install -g pnpm turbo
+
+WORKDIR /app
+
+ARG DATABASE_URL
+
+COPY pnpm-workspace.yaml ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY turbo.json ./
+COPY ./packages ./packages
+
+COPY ./apps/web ./apps/web
+
+RUN pnpm install
+RUN pnpm run db:generate
+RUN DATABASE_URL={DATABASE_URL} pnpm turbo build --filter=web...
+
+EXPOSE 3000
+
+CMD [ "pnpm","run","start:frontend"]
+
+
+
+
