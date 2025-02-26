@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -30,7 +30,7 @@ const ModelStatus = ({ params }: { params: Promise<{ Id: string }> }) => {
       }
     };
     Status();
-  }, []);
+  }, [params]);
 
   useEffect(() => {
     if(scrollRef.current) {

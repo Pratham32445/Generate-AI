@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4">About Us</h3>
-            <p className="text-muted-foreground">We're on a mission to simplify your workflow and boost productivity.</p>
+            <p className="text-muted-foreground">Were on a mission to simplify your workflow and boost productivity.</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
