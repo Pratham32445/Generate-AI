@@ -16,16 +16,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./docker/Dockerfile.backend
-          push: true
-          tags: |
-            pratham59/generate-ai-backend:${{ github.sha }}
-            pratham59/generate-ai-backend:latest
-
       - name: Deploy to VM
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
@@ -35,5 +25,16 @@ jobs:
             sudo docker stop Generate-AI-backend || true;
             sudo docker rm Generate-AI-backend || true;
             sudo docker pull pratham59/generate-ai-backend:latest;
-            sudo docker run -e DATABASE_URL='${{ secrets.DATABASE_URL }}' --name Generate-AI-backend -d -p 8080:8080 pratham59/generate-ai-backend:latest;
-          "
+            sudo docker run -d -p 8080:8080 \
+              -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+              -e FAL_API_KEY='${{ secrets.FAL_API_KEY }}' \
+              -e WEBHOOK_URL='${{ secrets.WEBHOOK_URL }}' \
+              -e ACCESS_KEY_ID='${{ secrets.ACCESS_KEY_ID }}' \
+              -e SECRET_ACCESS_KEY='${{ secrets.SECRET_ACCESS_KEY }}' \
+              -e BUCKET_NAME='${{ secrets.BUCKET_NAME }}' \
+              -e END_POINT='${{ secrets.END_POINT }}' \
+              -e CLIENT_ID='${{ secrets.CLIENT_ID }}' \
+              -e CLIENT_SECRET='${{ secrets.CLIENT_SECRET }}' \
+              -e JWT_SECRET='${{ secrets.JWT_SECRET }}' \
+              --name Generate-AI-backend pratham59/generate-ai-backend:latest;
+          "   
