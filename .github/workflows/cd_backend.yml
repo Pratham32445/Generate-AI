@@ -23,5 +23,5 @@ jobs:
           file: .docker/Dockerfile.backend
           push: true
           tags: |
-            pratham59/Generate-AI-backend:${{ github.sha }}
-            pratham59/Generate-AI-backend:latest
+            pratham59/generate-ai-backend:${{ github.sha }}
+            pratham59/generate-ai-backend:latest
