@@ -31,7 +31,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@your-server-ip -t "
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.233.193.198 -t "
             docker stop Generate-AI-backend || true;
             docker rm Generate-AI-backend || true;
             docker pull pratham59/generate-ai-backend:latest;
