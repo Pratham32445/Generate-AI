@@ -27,9 +27,13 @@ jobs:
             pratham59/generate-ai-backend:latest
 
       - name: Deploy to VM
-        run: 
-          echo "${{secrets.SSH_PRIVATE_KEY}}" & ~/ssh_key 
-          mkdir -p home/runner/.ssh
-          ls /home/runner/.ssh
-          chmod 700 /home/runner/ssh_key
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@15.206.205.62 -t "docker stop Generate-AI-frontend && docker run -e DATABASE_URL={{secrets.DATABASE_URL}} --name Generate-AI-frontend -d -p 8080:8080 pratham59/generate-ai-backend:latest"
+        run: |
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+          mkdir -p ~/.ssh
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@15.206.205.62 -t "
+            docker stop Generate-AI-frontend || true;
+            docker rm Generate-AI-frontend || true;
+            docker pull pratham59/generate-ai-backend:latest;
+            docker run -e DATABASE_URL='${{secrets.DATABASE_URL}}' --name Generate-AI-frontend -d -p 8080:8080 pratham59/generate-ai-backend:latest;
+          "
