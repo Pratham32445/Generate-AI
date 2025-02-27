@@ -31,7 +31,7 @@ const Home = () => {
                 "/main2.jpg?height=400&width=300",
                 "/ashwin1.jpg?height=400&width=300",
                 "/ashwin2.jpg?height=400&width=300",
-                "/main3.jpg?height=400&width=300",
+                "/sixth.png?height=400&width=300",
                 "/main4.jpg?height=400&width=300",
               ].map((src, i) => (
                 <div

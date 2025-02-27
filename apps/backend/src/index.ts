@@ -13,8 +13,17 @@ import webhookRouter from "./webhook/Model.webhook";
 
 const app = express();
 
+const corsOptions = {
+  origin: ["https://generate.ai.code10x.online", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
 app.use(express.json());
-app.use(cors());
+
+app.use(cors(corsOptions));
 
 fal.config({
   credentials: process.env.FAL_API_KEY,
@@ -24,9 +33,9 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.send("working");
-})
+});
 
 app.use("/ai", ModelRouter);
 app.use("/bundle", PackRouter);
