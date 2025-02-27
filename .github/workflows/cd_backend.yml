@@ -25,7 +25,7 @@ jobs:
           push: true
           tags: |
             pratham59/generate-ai-backend-main:${{ github.sha }}
-            pratham59/generate-ai-backend-main:latest
+            pratham59/generate-ai-backend-main:latest   
 
       - name: Deploy to VM
         run: |
