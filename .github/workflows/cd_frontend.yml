@@ -1,0 +1,50 @@
+name: Deploy the Frontend
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/Dockerfile.frontend
+          build-args:
+            - DATABASE_URL=${{secrets.DATABASE_URL}}
+          push: true
+          tags: |
+            pratham59/generate-ai-frontend-main:${{ github.sha }}
+            pratham59/generate-ai-frontend-main:latest
+
+      - name: Deploy to VM
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+          mkdir -p ~/.ssh
+
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@3.110.147.23 -t "
+            sudo docker stop Generate-AI-frontend || true;
+            sudo docker rm Generate-AI-frontend || true;
+            sudo docker pull pratham59/generate-ai-frontend-main:latest;
+            sudo docker run -d -p 3000:3000 --name Generate-AI-frontend \
+              -e NEXTAUTH_URL='${{ secrets.NEXTAUTH_URL }}' \
+              -e NEXTAUTH_SECRET='${{ secrets.NEXTAUTH_SECRET }}' \
+              -e CLIENT_ID='${{ secrets.CLIENT_ID }}' \
+              -e CLIENT_SECRET='${{ secrets.CLIENT_SECRET }}' \
+              -e NEXT_PUBLIC_BACKEND_URL='${{ secrets.NEXT_PUBLIC_BACKEND_URL }}' \
+              -e NEXT_PUBLIC_CLOUDFLARE_URL='${{ secrets.NEXT_PUBLIC_CLOUDFLARE_URL }}' \
+              -e NEXT_PUBLIC_PRODUCTION_URL='${{ secrets.NEXT_PUBLIC_PRODUCTION_URL }}' \
+              pratham59/generate-ai-frontend-main:latest
