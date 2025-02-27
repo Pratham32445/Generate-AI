@@ -1,12 +1,12 @@
 name: Deploy the backend
 on:
   push:
-    branches: [main] 
+    branches: [main]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  
-    
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -22,10 +22,10 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile.backend
-          push: true   
+          push: true
           tags: |
             pratham59/generate-ai-backend-main:${{ github.sha }}
-            pratham59/generate-ai-backend-main:latest   
+            pratham59/generate-ai-backend-main:latest
 
       - name: Deploy to VM
         run: |
