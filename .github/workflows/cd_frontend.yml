@@ -1,4 +1,5 @@
 name: Deploy the Frontend
+
 on:
   push:
     branches: [main]
@@ -17,16 +18,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Build Args
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
       - name: Build and Push
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./docker/Dockerfile.frontend
           build-args:
-            - DATABASE_URL=${{secrets.DATABASE_URL}}
+            - DATABASE_URL=${{ secrets.DATABASE_URL }}
           push: true
           tags: |
-            pratham59/generate-ai-frontend-main:${{ github.sha }}
+            pratham59/generate-ai-frontend-main:${{ github.sha }}-db-${{ env.DATABASE_URL }}
             pratham59/generate-ai-frontend-main:latest
 
       - name: Deploy to VM
@@ -47,4 +52,4 @@ jobs:
               -e NEXT_PUBLIC_BACKEND_URL='${{ secrets.NEXT_PUBLIC_BACKEND_URL }}' \
               -e NEXT_PUBLIC_CLOUDFLARE_URL='${{ secrets.NEXT_PUBLIC_CLOUDFLARE_URL }}' \
               -e NEXT_PUBLIC_PRODUCTION_URL='${{ secrets.NEXT_PUBLIC_PRODUCTION_URL }}' \
-              pratham59/generate-ai-frontend-main:latest
+              pratham59/generate-ai-frontend-main:latest"
