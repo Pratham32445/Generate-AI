@@ -25,6 +25,12 @@ jobs:
           file: ./docker/Dockerfile.frontend
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXTAUTH_URL='${{ secrets.NEXTAUTH_URL }}
+            CLIENT_ID='${{ secrets.CLIENT_ID }}' 
+            CLIENT_SECRET='${{ secrets.CLIENT_SECRET }}' 
+            NEXT_PUBLIC_BACKEND_URL='${{ secrets.NEXT_PUBLIC_BACKEND_URL }}' 
+            NEXT_PUBLIC_CLOUDFLARE_URL='${{ secrets.NEXT_PUBLIC_CLOUDFLARE_URL }}' 
+            NEXT_PUBLIC_PRODUCTION_URL='${{ secrets.NEXT_PUBLIC_PRODUCTION_URL }}' 
           push: true
           tags: |
             pratham59/generate-ai-frontend-main:${{ github.sha }}
