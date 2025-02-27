@@ -1,39 +1,37 @@
 name: Deploy the backend
 on:
-  push: 
-    branches: [main]
-
+  push:
+    branch: [main]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu:latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
 
       - name: Docker Login
         uses: docker/login-action@v2
-        with: 
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-      - name: Build and push Docker image
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+
+      - name: Build and Push
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./docker/Dockerfile.backend
           push: true
           tags: |
-            pratham59/generate-ai-backend:${{ github.sha }}
-            pratham59/generate-ai-backend:latest
+            pratham59/generate-ai-backend-main:${{ github.sha }}
+            pratham59/generate-ai-backend-main:latest
 
       - name: Deploy to VM
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-          chmod 600 ~/ssh_key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          chmod 700 ~/ssh_key
           mkdir -p ~/.ssh
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@13.200.253.59 -t "
-            docker stop Generate-AI-backend || true;
-            docker rm Generate-AI-backend || true;
-            docker pull pratham59/generate-ai-backend:latest;
-            docker run -e DATABASE_URL={{secrets.DATABASE_URL}} --name Generate-AI-backend -d -p 8080:8080 pratham59/generate-ai-backend:latest;
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@52.66.206.107 -t "
+          docker stop Generate-AI-backend || true;
+          docker rm Generate-AI-backend || true;
+          docker pull pratham59/generate-ai-backend-main;
+          docker run -e DATABASE_URL='${{ secrets.DATABASE_URL }}' --name Generate-AI-backend -d -p 8080:8080 pratham59/generate-ai-backend-main;
           "
