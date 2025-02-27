@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { s3client } from "./aws/s3";
-import cors from "cors";
+import cors from "cors"; 
 import { fal } from "@fal-ai/client";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import webhookRouter from "./webhook/Model.webhook";
