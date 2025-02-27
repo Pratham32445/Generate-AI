@@ -1,10 +1,12 @@
 name: Deploy the backend
 on:
   push:
-    branch: [main]
+    branches: [main]  # Fix branch syntax
+
 jobs:
   build:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest  # Fix: Correct syntax
+    
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -12,8 +14,8 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v2
         with:
-          username: ${{secrets.DOCKERHUB_USERNAME}}
-          password: ${{secrets.DOCKERHUB_TOKEN}}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Push
         uses: docker/build-push-action@v4
@@ -26,12 +28,14 @@ jobs:
             pratham59/generate-ai-backend-main:latest
 
       - name: Deploy to VM
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-          chmod 700 ~/ssh_key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@52.66.206.107 -t "
-          docker stop Generate-AI-backend || true;
-          docker rm Generate-AI-backend || true;
-          docker pull pratham59/generate-ai-backend-main;
-          docker run -e DATABASE_URL='${{ secrets.DATABASE_URL }}' --name Generate-AI-backend -d -p 8080:8080 pratham59/generate-ai-backend-main;
+
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@52.66.206.107 -t "
+            sudo docker stop Generate-AI-backend || true;
+            sudo docker rm Generate-AI-backend || true;
+            sudo docker pull pratham59/generate-ai-backend-main:latest;
+            sudo docker run -e DATABASE_URL='${{ secrets.DATABASE_URL }}' --name Generate-AI-backend -d -p 8080:8080 pratham59/generate-ai-backend-main:latest;
           "
