@@ -27,10 +27,10 @@ const Home = () => {
           <div className="relative mx-auto mb-8 h-[300px] max-w-5xl opacity-0 animate-fade-up [animation-delay:1400ms] md:h-[400px]">
             <div className="absolute left-1/2 flex -translate-x-1/2 transform items-end gap-4">
               {[
-                "/first.jpeg?height=400&width=300",
-                "/second.jpeg?height=400&width=300",
-                "/third.jpg?height=400&width=300",
-                "/fourth.avif?height=400&width=300",
+                "/main1.jpg?height=400&width=300",
+                "/main2.jpg?height=400&width=300",
+                "/ashwin1.jpg?height=400&width=300",
+                "/ashwin2.jpg?height=400&width=300",
                 "/fifth.webp?height=400&width=300",
                 "/sixth.png?height=400&width=300",
               ].map((src, i) => (
