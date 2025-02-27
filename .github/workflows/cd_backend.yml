@@ -33,7 +33,7 @@ jobs:
           chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
 
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@15.207.107.204 -t "
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.159.63 -t "
             sudo docker stop Generate-AI-backend || true;
             sudo docker rm Generate-AI-backend || true;
             sudo docker pull pratham59/generate-ai-backend-main:latest;
