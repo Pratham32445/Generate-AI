@@ -1,12 +1,12 @@
 name: Deploy the backend
 on:
   push:
-    branches: [main]
+    branches: [main] 
 
 jobs:
   build:
-    runs-on: ubuntu-latest 
-
+    runs-on: ubuntu-latest  
+    
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -25,7 +25,7 @@ jobs:
           push: true
           tags: |
             pratham59/generate-ai-backend-main:${{ github.sha }}
-            pratham59/generate-ai-backend-main:latest
+            pratham59/generate-ai-backend-main:latest   
 
       - name: Deploy to VM
         run: |
@@ -33,7 +33,7 @@ jobs:
           chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
 
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@52.66.206.107 -t "
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@15.207.107.204 -t "
             sudo docker stop Generate-AI-backend || true;
             sudo docker rm Generate-AI-backend || true;
             sudo docker pull pratham59/generate-ai-backend-main:latest;
