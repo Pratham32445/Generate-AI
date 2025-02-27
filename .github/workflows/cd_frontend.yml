@@ -39,6 +39,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.141.45 -t "
             sudo docker stop Generate-AI-frontend || true;
             sudo docker rm Generate-AI-frontend || true;
+            sudo docker rmi pratham59/generate-ai-frontend-main:latest || true; 
             sudo docker pull pratham59/generate-ai-frontend-main:latest;
             sudo docker run -d -p 3000:3000 --name Generate-AI-frontend \
               -e NEXTAUTH_URL='${{ secrets.NEXTAUTH_URL }}' \

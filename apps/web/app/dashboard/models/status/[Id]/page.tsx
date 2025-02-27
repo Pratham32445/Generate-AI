@@ -24,7 +24,7 @@ const ModelStatus = ({ params }: { params: Promise<{ Id: string }> }) => {
             if (res.data.status.status == "COMPLETED") {
               setStatus("COMPLETED");
               clearInterval(intervalId);
-            }
+            } 
           }
         }, 2000);
       }
