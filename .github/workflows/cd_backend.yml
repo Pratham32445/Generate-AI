@@ -22,7 +22,7 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile.backend
-          push: true
+          push: true   
           tags: |
             pratham59/generate-ai-backend-main:${{ github.sha }}
             pratham59/generate-ai-backend-main:latest   
