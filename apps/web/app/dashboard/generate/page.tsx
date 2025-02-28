@@ -15,6 +15,8 @@ import {
 import { TrainModelTypes, GenerateImageTypes } from "comman/infertypes";
 import OutputImage from "@/components/OutputImage";
 import { toast } from "sonner";
+import { getImage } from "@/utils";
+import Link from "next/link";
 
 const Generate = () => {
   const [userModels, setUserModels] = useState<TrainModelTypes[] | null>(null);
@@ -27,14 +29,6 @@ const Generate = () => {
     prompt: string;
     createdAt: Date;
   }>({ imageUrl: "", prompt: "", createdAt: new Date() });
-
-  const getImage = async (imageId: string) => {
-    const image = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/model/image?imageId=${imageId}`
-    );
-    console.log(image);
-    return image;
-  };
 
   const getUserGeneratedModels = async () => {
     const tokenData = await axios.get("/api/token");
@@ -75,7 +69,7 @@ const Generate = () => {
       );
       if (response.status == 200) {
         const intervalId = setInterval(async () => {
-          const resImage = await getImage(response.data.image);
+          const resImage = await getImage(response.data.image, "outputImages");
           if (resImage.data.image.status == "Generated") {
             setIsGenerated(true);
             setIsLoading(false);
@@ -86,7 +80,6 @@ const Generate = () => {
       }
     } catch (error) {
       if (isAxiosError(error)) {
-        console.log(error);
         setIsGenerated(false);
         setIsLoading(false);
         setPrompt("");
@@ -107,7 +100,7 @@ const Generate = () => {
         <div className="p-4 animate-fade-up  opacity-0 [animation-delay:400ms]">
           <div className="mb-10">
             <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-              Generate Image
+              Generate Image With Model
             </h2>
             <p className="text-neutral-600 text-xs">
               Describe your Imagination and we will create the reality
@@ -115,7 +108,7 @@ const Generate = () => {
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              <h2 className="mt-10 scroll-m-20 pb-2 text-lg font-semibold tracking-tight transition-colors first:mt-0">
                 Select Model
               </h2>
               <p className="text-neutral-600 text-xs">
@@ -159,6 +152,10 @@ const Generate = () => {
             >
               <Brain /> Generate
             </Button>
+            <p className="text-neutral-500 text-xs">
+              if you want to generate Image without Model then{" "}
+              <Link href="/dashboard">Click here</Link>
+            </p>
           </div>
         </div>
       ) : (

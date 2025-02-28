@@ -10,6 +10,7 @@ import cors from "cors";
 import { fal } from "@fal-ai/client";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import webhookRouter from "./webhook/Model.webhook";
+import ImageRouter from "./controllers/Image.controller";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
 
 app.use("/ai", ModelRouter);
 app.use("/bundle", PackRouter);
+app.use("/image", ImageRouter)
 // webhook route
 app.use("/", webhookRouter);
 
@@ -92,14 +94,31 @@ app.get("/model/train/status", async (req, res) => {
 app.get("/model/image", async (req, res) => {
   try {
     const Id = req.query.imageId as string;
-    const image = await prismaClient.outputImages.findFirst({
-      where: {
-        Id,
-      },
-    });
-    res.json({
-      image,
-    });
+    const model = req.query.model as string;
+    console.log(Id,model);
+    if (model == "outputImages") {
+      const image = await prismaClient.outputImages.findFirst({
+        where: {
+          Id,
+        },
+      });
+      return res.json({
+        image,
+      });
+    }
+    else if (model == "outputImagesWithoutModel") {
+      const image = await prismaClient.outputImagesWithoutModel.findFirst({
+        where: {
+          Id,
+        },
+      });
+      return res.json({
+        image,
+      });
+    }
+    res.status(404).json({
+      message: "Not found"
+    })
   } catch (error) {
     res.status(404).json({
       Message: "We can't Find this Model",

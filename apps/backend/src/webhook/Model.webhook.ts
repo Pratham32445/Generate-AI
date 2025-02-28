@@ -41,7 +41,45 @@ webhookRouter.post("/fal-ai/webhook/generate", async (req, res) => {
   }
   else {
     res.status(411).json({
-      message : "Error while Generating Image"
+      message: "Error while Generating Image"
+    })
+  }
+});
+
+
+webhookRouter.post("/fal-ai/webhook/generateImageWithoutModel", async (req, res) => {
+  const request_id = req.body.request_id;
+  if (req.body?.payload?.images[0]?.url) {
+    const outputImage = await prismaClient.outputImagesWithoutModel.updateManyAndReturn({
+      where: {
+        falAiRequestId: request_id,
+      },
+      data: {
+        status: "Generated",
+        imageUrl: req.body.payload.images[0].url,
+      },
+    });
+    const user = await prismaClient.user.findFirst({
+      where: {
+        Id: outputImage[0].userId,
+      },
+    });
+    await prismaClient.user.update({
+      where: {
+        Id: outputImage[0].userId,
+      },
+      data: {
+        credits: +user!.credits - GENERATE_IMAGE,
+      },
+    });
+    res.json({
+      message: "Webhook recieved",
+      imageUrl: req.body.payload.images[0].url,
+    });
+  }
+  else {
+    res.status(411).json({
+      message: "Error while Generating Image"
     })
   }
 });

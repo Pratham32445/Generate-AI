@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+
 export const authMiddleware = async (
   req: Request,
   res: Response,
@@ -13,9 +14,7 @@ export const authMiddleware = async (
     });
     return;
   }
-  console.log(token);
   const data = jwt.verify(token, process.env.JWT_SECRET!);
-  console.log(data,"data is");
   // @ts-ignore
   req.user = data;
   next();

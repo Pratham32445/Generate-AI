@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const OutputImage = ({
   open,
   image,
-  setOpen,
+  setOpen,    
 }: {
   open: boolean;
   image: { imageUrl: string; prompt: string; createdAt: Date };

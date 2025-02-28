@@ -3,6 +3,9 @@ import prismaClient from "db";
 import { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
+  pages : {
+    signIn : "/login"
+  },
   callbacks: {
     async signIn({ account, profile }) {
       if (!account || !profile) return false;

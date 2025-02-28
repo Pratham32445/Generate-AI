@@ -9,20 +9,20 @@ generator client {
   binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
 }
 
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  Id             String         @id @default(uuid())
-  userName       String
-  email          String         @unique
-  profilePicture String?
-  model          Model[]
-  outputImages   OutputImages[]
-  credits        Decimal        @default(2)
+  Id                       String                     @id @default(uuid())
+  userName                 String
+  email                    String                     @unique
+  profilePicture           String?
+  model                    Model[]
+  outputImages             OutputImages[]
+  outputImagesWithoutModel OutputImagesWithoutModel[]
+  credits                  Decimal                    @default(2)
 }
 
 model Model {
@@ -60,6 +60,18 @@ model OutputImages {
   prompt         String
   falAiRequestId String?
   model          Model                 @relation(fields: [modelId], references: [Id])
+  user           User                  @relation(fields: [userId], references: [Id])
+  status         OutputImageStatusEnum @default(Pending)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+}
+
+model OutputImagesWithoutModel {
+  Id             String                @id @default(uuid())
+  imageUrl       String
+  userId         String
+  prompt         String
+  falAiRequestId String?
   user           User                  @relation(fields: [userId], references: [Id])
   status         OutputImageStatusEnum @default(Pending)
   createdAt      DateTime              @default(now())

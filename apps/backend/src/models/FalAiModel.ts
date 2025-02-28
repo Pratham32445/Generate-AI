@@ -31,16 +31,25 @@ export class FalAiModel extends BaseModel {
     });
     return request_id;
   }
-  async generateImageAsync(tensorPath : string) {
+  async generateImageAsync(tensorPath: string) {
     const response = await fal.subscribe("fal-ai/flux-lora", {
       input: {
         prompt:
           "Generate a head shot for the user in front of the white background",
-        loras : [{path : tensorPath,scale : 1}]
+        loras: [{ path: tensorPath, scale: 1 }]
       },
     });
     return {
       imageUrl: response.data.images[0].url,
     };
+  }
+  async generateImageWithoutModel(prompt: string) {
+    const { request_id } = await fal.queue.submit("fal-ai/flux-lora", {
+      input: {
+        prompt: prompt,
+      },
+      webhookUrl: `${process.env.WEBHOOK_URL}/fal-ai/webhook/generateImageWithoutModel`,
+    });
+    return request_id;
   }
 }
