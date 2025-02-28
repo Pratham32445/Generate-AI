@@ -1,11 +1,12 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import PackGenerate from "./PackGenerate";
-import Image from "next/image";
+// import React from "react";
+// import { Card, CardContent } from "@/components/ui/card";
+// import PackGenerate from "./PackGenerate";
+// import Image from "next/image";
 
 const Packs = async () => {
   // const packs = await prismaClient.pack.findMany({});
   return (
+    <div></div>
     // <div className="flex flex-wrap pt-5 px-4">
     //   {packs &&
     //     packs.map(({ Id, name }: { Id: string; name: string }) => (
@@ -25,7 +26,7 @@ const Packs = async () => {
     //         </div>
     //       </Card>
     //     ))}
-    </div>
+    // </div>
   );
 };
 
