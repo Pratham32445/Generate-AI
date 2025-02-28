@@ -36,6 +36,7 @@ const GenerateImage = () => {
           },
         }
       );
+      console.log(res.data);
       if (res.status == 200) {
         const intervalId = setInterval(async () => {
           const resImage = await getImage(
