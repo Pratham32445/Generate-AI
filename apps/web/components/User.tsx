@@ -34,7 +34,6 @@ const User = () => {
     };
     getUser();
   }, []);
-  console.log(user?.userName);
   if (!user) return;
   return (
     user && (

@@ -1,7 +1,6 @@
 "use client";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -25,41 +24,32 @@ const chartConfig = {
 
 export default function Component() {
   return (
-    <Card>
-      <CardContent>
-        <CardHeader>
-          <CardTitle>Image Generated During this Month</CardTitle>
-        </CardHeader>
-        <ChartContainer config={chartConfig}>
+    <Card className="bg-muted/50">
+      <CardContent className="p-0 mt-[5px]">
+        <p className="text-xs px-2 py-3">Image Generated During this Month</p>
+        <ChartContainer config={chartConfig} className="w-full h-[170px] bg-muted/50">
           <LineChart
-            accessibilityLayer
-            margin={{
-              top: 10,
-              right: 10,
-              left: 0,
-              bottom: 10,
-            }}
             data={chartData}
+            className="bg-muted/50"
+            width={300}
+            height={170}
           >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              tickMargin={4}
+              padding={{ left: 0, right: 0 }}
             />
-            <YAxis axisLine={false} tickLine={false} tickMargin={5} />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+            <YAxis
+              padding={{ top: 0, bottom: 0 }}
+              axisLine={false}
+              tickLine={false}
+              tickMargin={4}
             />
-            <Line
-              dataKey="count"
-              type="natural"
-              stroke="var(--color-desktop)"
-              strokeWidth={2}
-              dot={false}
-            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <Line dataKey="count" type="natural" stroke="var(--color-desktop)" strokeWidth={2} dot={false} />
           </LineChart>
         </ChartContainer>
       </CardContent>

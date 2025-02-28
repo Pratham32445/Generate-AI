@@ -17,7 +17,8 @@ interface Image {
 }
 
 const Images = () => {
-  const [Images, setImages] = useState([]);
+  const [withModels, setWithModels] = useState([]);
+  const [withoutModels, setWithoutModels] = useState([]);
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<Image>();
   const getUserAllImages = async () => {
@@ -30,7 +31,8 @@ const Images = () => {
         },
       }
     );
-    setImages(response.data.images);
+    setWithModels(response.data.withModels);
+    setWithoutModels(response.data.withoutModels);
   };
 
   useEffect(() => {
@@ -40,45 +42,85 @@ const Images = () => {
   return (
     <div>
       <div className="flex justify-end px-10 py-2">
-        <Link href="/dashboard/generate">
+        <Link href="/dashboard">
           <Plus />
         </Link>
       </div>
-      <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
-        {Images.length > 0 ? (
-          Images.reverse().map((image: Image) => (
-            <Card
-              key={image.Id}
-              className="cursor-pointer overflow-hidden"
-              onClick={() => {
-                setOpen(true);
-                setImage(image);
-              }}
-            >
-              <CardContent className="p-0 relative w-[300px] h-[300px]">
-                <Image src={image.imageUrl} fill alt="Generated" />
-              </CardContent>
-              <div className="p-4 flex items-center gap-4">
-                <DownloadIcon
-                  onClick={() => downloadImage(image.imageUrl)}
-                  width={15}
-                  height={15}
-                />
-              </div>
-            </Card>
-          ))
-        ) : (
-          <div>
+      <div>
+        <p className="mx-10 text-xl">Without Models</p>
+        <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
+          {withoutModels.length > 0 ? (
+            withoutModels.reverse().map((image: Image) => (
+              <Card
+                key={image.Id}
+                className="cursor-pointer overflow-hidden"
+                onClick={() => {
+                  setOpen(true);
+                  setImage(image);
+                }}
+              >
+                <CardContent className="p-0 relative w-[300px] h-[300px]">
+                  <Image src={image.imageUrl} fill alt="Generated" />
+                </CardContent>
+                <div className="p-4 flex items-center gap-4">
+                  <DownloadIcon
+                    onClick={() => downloadImage(image.imageUrl)}
+                    width={15}
+                    height={15}
+                  />
+                </div>
+              </Card>
+            ))
+          ) : (
             <div>
-              <p>No Images Found</p>
-              <Link href={"/dashboard/generate"}>
-                <Button>Generate One</Button>
-              </Link>
+              <div>
+                <p className="my-1">No Images Found</p>
+                <Link href={"/dashboard"}>
+                  <Button>Generate One</Button>
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
-        <OutputImage open={open} setOpen={setOpen} image={image!} />
+          )}
+        </div>
       </div>
+      <div>
+        <p className="mx-10 text-xl">With Models</p>
+        <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
+          {withModels.length > 0 ? (
+            withModels.reverse().map((image: Image) => (
+              <Card
+                key={image.Id}
+                className="cursor-pointer overflow-hidden"
+                onClick={() => {
+                  setOpen(true);
+                  setImage(image);
+                }}
+              >
+                <CardContent className="p-0 relative w-[300px] h-[300px]">
+                  <Image src={image.imageUrl} fill alt="Generated" />
+                </CardContent>
+                <div className="p-4 flex items-center gap-4">
+                  <DownloadIcon
+                    onClick={() => downloadImage(image.imageUrl)}
+                    width={15}
+                    height={15}
+                  />
+                </div>
+              </Card>
+            ))
+          ) : (
+            <div>
+              <div>
+                <p className="my-1">No Images Found</p>
+                <Link href={"/dashboard/generate"}>
+                  <Button>Generate One</Button>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <OutputImage open={open} setOpen={setOpen} image={image!} />
     </div>
   );
 };

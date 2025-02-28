@@ -95,7 +95,7 @@ app.get("/model/image", async (req, res) => {
   try {
     const Id = req.query.imageId as string;
     const model = req.query.model as string;
-    console.log(Id,model);
+    console.log(Id, model);
     if (model == "outputImages") {
       const image = await prismaClient.outputImages.findFirst({
         where: {
@@ -134,13 +134,19 @@ app.get("/user/images", authMiddleware, async (req, res) => {
         email: req.user.email!,
       },
     });
-    const images = await prismaClient.outputImages.findMany({
+    const withModels = await prismaClient.outputImages.findMany({
       where: {
         userId: user?.Id,
       },
     });
+    const withoutModels = await prismaClient.outputImagesWithoutModel.findMany({
+      where: {
+        userId: user?.Id
+      }
+    })
     res.json({
-      images,
+      withModels,
+      withoutModels
     });
   } catch (error) {
     console.log(error);
