@@ -26,7 +26,7 @@ const Generate = () => {
     imageUrl: string;
     prompt: string;
     createdAt: Date;
-  }>({ imageUrl: "", prompt: "", createdAt: new Date()});
+  }>({ imageUrl: "", prompt: "", createdAt: new Date() });
 
   const getImage = async (imageId: string) => {
     const image = await axios.get(
@@ -50,6 +50,14 @@ const Generate = () => {
   };
   const GenerateImage = async () => {
     try {
+      if (!prompt) {
+        toast.error("Please add a prompt");
+        return;
+      }
+      if (!modelId) {
+        toast.error("Please select a model to proceed further");
+        return;
+      }
       setIsLoading(true);
       const input: GenerateImageTypes = {
         prompt,

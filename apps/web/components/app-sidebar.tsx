@@ -93,12 +93,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {data.map(({ link, name, icon: Icon }, idx) => (
               <SidebarMenuItem key={idx} className="my-2 mx-1">
                 {" "}
-                <SidebarMenuButton className="flex items-center">
-                  <Icon />
-                  <Link href={link} className="font-medium">
+                <Link href={link} className="font-medium">
+                  <SidebarMenuButton className="flex items-center">
+                    <Icon />
                     {name}
-                  </Link>
-                </SidebarMenuButton>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
             ))}
           </SidebarMenu>

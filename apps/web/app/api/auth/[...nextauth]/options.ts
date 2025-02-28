@@ -1,7 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import prismaClient from "db";
 import { NextAuthOptions } from "next-auth";
-   
+
 export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ account, profile }) {

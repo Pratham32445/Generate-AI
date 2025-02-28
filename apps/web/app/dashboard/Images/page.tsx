@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { DownloadIcon, Plus, Trash2 } from "lucide-react";
+import { DownloadIcon, Plus } from "lucide-react";
 import { downloadImage } from "@/utils/DownloadImage";
 import OutputImage from "@/components/OutputImage";
 import Link from "next/link";
@@ -46,30 +46,27 @@ const Images = () => {
       </div>
       <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
         {Images.length > 0 ? (
-          Images.reverse().map(
-            (image: Image) => (
-              <Card
-                key={image.Id}
-                className="cursor-pointer"
-                onClick={() => {
-                  setOpen(true);
-                  setImage(image);
-                }}
-              >
-                <CardContent className="p-0 relative w-[300px] h-[300px]">
-                  <Image src={image.imageUrl} fill alt="Generated" />
-                </CardContent>
-                <div className="p-4 flex items-center gap-4">
-                  <DownloadIcon
-                    onClick={() => downloadImage(image.imageUrl)}
-                    width={20}
-                    height={20}
-                  />
-                  <Trash2 width={20} height={20} />
-                </div>
-              </Card>
-            )
-          )
+          Images.reverse().map((image: Image) => (
+            <Card
+              key={image.Id}
+              className="cursor-pointer overflow-hidden"
+              onClick={() => {
+                setOpen(true);
+                setImage(image);
+              }}
+            >
+              <CardContent className="p-0 relative w-[300px] h-[300px]">
+                <Image src={image.imageUrl} fill alt="Generated" />
+              </CardContent>
+              <div className="p-4 flex items-center gap-4">
+                <DownloadIcon
+                  onClick={() => downloadImage(image.imageUrl)}
+                  width={15}
+                  height={15}
+                />
+              </div>
+            </Card>
+          ))
         ) : (
           <div>
             <div>

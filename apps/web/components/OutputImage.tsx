@@ -2,7 +2,7 @@
 import React from "react";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import Image from "next/image";
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon,  TrashIcon } from "lucide-react";
 import { downloadImage } from "@/utils/DownloadImage";
 import { Badge } from "@/components/ui/badge";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -20,7 +20,7 @@ const OutputImage = ({
   return (
     image && (
       <Dialog open={open} onOpenChange={(value) => setOpen(value)}>
-        <DialogContent className="max-w-xl p-0">
+        <DialogContent className="max-w-xl p-0 overflow-hidden">
           <DialogHeader>
             <Image
               src={image.imageUrl}
@@ -44,11 +44,14 @@ const OutputImage = ({
                 CreatedAt: {new Date(image.createdAt).toLocaleDateString()}
               </p>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
               <DownloadIcon
+                width={15}
+                height={15}
                 className="cursor-pointer"
                 onClick={() => downloadImage(image.imageUrl)}
               />
+              <TrashIcon width={15} height={15} className="cursor-pointer" color="#EE4B2B" />
             </div>
           </DialogDescription>
         </DialogContent>
