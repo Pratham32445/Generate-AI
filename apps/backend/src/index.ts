@@ -159,6 +159,16 @@ app.get("/user/me", authMiddleware, async (req, res) => {
       // @ts-ignore
       email: req.user.email!,
     },
+    select: {
+      Id: true,
+      userName: true,
+      email: true,
+      credits: true,
+      createdAt: true,
+      updatedAt: true,
+      outputImages: true,
+      outputImagesWithoutModel: true
+    }
   });
   return res.json({
     user,

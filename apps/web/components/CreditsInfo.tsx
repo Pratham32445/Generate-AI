@@ -82,8 +82,9 @@ export default function CreditsInfo() {
   }
 
   return (
-    <Card className="flex flex-col bg-muted/50">
+    <Card className="flex flex-col bg-muted/50 relative">
       <CardContent className="flex-1 pb-0">
+        <p className="text-xs absolute top-[20px]">Credits Remaining</p>
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[220px]"
