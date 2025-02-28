@@ -36,6 +36,8 @@ const Images = () => {
     setWithoutModels(response.data.withoutModels);
   };
 
+  console.log(withModels,withoutModels);
+
   useEffect(() => {
     getUserAllImages();
   }, []);

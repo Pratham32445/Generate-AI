@@ -104,6 +104,9 @@ importers:
       db:
         specifier: workspace:*
         version: link:../../packages/db
+      framer-motion:
+        specifier: ^12.4.7
+        version: 12.4.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
