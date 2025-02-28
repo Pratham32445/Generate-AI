@@ -5,6 +5,7 @@ import Pricing from "@/components/Pricing";
 import Marquee3D from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Home = () => {
@@ -55,9 +56,11 @@ const Home = () => {
           </div>
           {/* CTA Section */}
           <div className="relative opacity-0 animate-fade-up [animation-delay:2200ms]">
-            <Button className="bg-[#ffb7b7] text-black hover:bg-[#ffb7b7]/90 w-[300px] p-8">
-              Try it Now
-            </Button>
+            <Link href={"/dashboard"}>
+              <Button className="bg-[#ffb7b7] text-black hover:bg-[#ffb7b7]/90 w-[300px] p-8">
+                Try it Now
+              </Button>
+            </Link>
           </div>{" "}
         </div>
         <div className="max-w-5xl m-auto">

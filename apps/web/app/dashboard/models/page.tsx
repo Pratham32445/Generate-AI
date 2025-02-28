@@ -1,3 +1,6 @@
+
+export const revalidate = 60;
+
 import React from "react";
 import prismaClient from "db";
 import { getServerSession } from "next-auth";

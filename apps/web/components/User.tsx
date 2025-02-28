@@ -43,7 +43,7 @@ const User = () => {
             <AvatarImage src={user.profilePicture} alt="@shadcn" />
             <AvatarFallback>
               {user.userName.split("")[0][0]}
-              {user.userName.split("")[0][1]}
+              {user.userName.split("")[1][1]}
             </AvatarFallback>
           </Avatar>
         </Link>

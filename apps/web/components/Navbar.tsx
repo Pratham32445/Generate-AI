@@ -17,18 +17,18 @@ const Navbar = () => {
       </Link>
 
       <div className="hidden items-center gap-8 opacity-0 animate-fade-in [animation-delay:400ms] md:flex">
-        <a href="#" className="text-sm hover:text-gray-600">
+        <Link href="#" className="text-sm hover:text-gray-600">
           How it works?
-        </a>
-        <a href="#" className="text-sm hover:text-gray-600">
+        </Link>
+        <Link href="#" className="text-sm hover:text-gray-600">
           Features
-        </a>
-        <a href="#" className="text-sm hover:text-gray-600">
+        </Link>
+        <Link href="/pricing" className="text-sm hover:text-gray-600">
           Pricing
-        </a>
-        <a href="#" className="text-sm hover:text-gray-600">
+        </Link>
+        <Link href="#" className="text-sm hover:text-gray-600">
           Contact
-        </a>
+        </Link>
       </div>
 
       <div className="flex items-center gap-4 opacity-0 animate-fade-left [animation-delay:600ms]">
