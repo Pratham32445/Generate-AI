@@ -2,6 +2,7 @@ import { Footer } from "@/components/Footer";
 import { HowItWorks } from "@/components/Howitworks";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
+import Marquee3D from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
@@ -32,7 +33,7 @@ const Home = () => {
                 "/ashwin1.jpg?height=400&width=300",
                 "/ashwin2.jpg?height=400&width=300",
                 "/sixth.png?height=400&width=300",
-                "/main4.jpg?height=400&width=300",
+                "/main5.jpeg?height=400&width=300",
               ].map((src, i) => (
                 <div
                   key={i}
@@ -54,13 +55,16 @@ const Home = () => {
           </div>
           {/* CTA Section */}
           <div className="relative opacity-0 animate-fade-up [animation-delay:2200ms]">
-            <Button className="bg-[#ffb7b7] text-black hover:bg-[#ffb7b7]/90">
+            <Button className="bg-[#ffb7b7] text-black hover:bg-[#ffb7b7]/90 w-[300px] p-8">
               Try it Now
             </Button>
           </div>{" "}
-          <HowItWorks/>
-          <Pricing/>
-          <Footer/>
+        </div>
+        <div className="max-w-5xl m-auto">
+          <HowItWorks />
+          <Pricing />
+          <Marquee3D />
+          <Footer />
         </div>
       </main>
     </div>

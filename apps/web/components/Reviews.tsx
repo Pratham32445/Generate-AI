@@ -1,72 +1,113 @@
-import Image from "next/image"
-import { Star } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { Marquee } from "@/components/magicui/marquee";
+import Image from "next/image";
 
 const reviews = [
   {
-    name: "Sarah Johnson",
-    role: "Graphic Designer",
-    content:
-      "Genimg has revolutionized my workflow. The AI-generated images are incredibly high-quality and save me hours of work.",
-    avatar: "/placeholder.svg?height=100&width=100",
-    rating: 5,
+    name: "Jack",
+    username: "@jack",
+    body: "I've never seen anything like this before. It's amazing. I love it.",
+    img: "https://avatar.vercel.sh/jack",
   },
   {
-    name: "Michael Chen",
-    role: "Marketing Manager",
-    content: "Our campaigns have never looked better. Genimg provides us with unique visuals that truly stand out.",
-    avatar: "/placeholder.svg?height=100&width=100",
-    rating: 5,
+    name: "Jill",
+    username: "@jill",
+    body: "I don't know what to say. I'm speechless. This is amazing.",
+    img: "https://avatar.vercel.sh/jill",
   },
   {
-    name: "Emily Rodriguez",
-    role: "Content Creator",
-    content:
-      "I love how easy it is to bring my ideas to life with Genimg. It's like having a professional artist at my fingertips.",
-    avatar: "/placeholder.svg?height=100&width=100",
-    rating: 4,
+    name: "John",
+    username: "@john",
+    body: "I'm at a loss for words. This is amazing. I love it.",
+    img: "https://avatar.vercel.sh/john",
   },
-]
+];
 
-export function Reviews() {
+const firstRow = reviews.slice(0, reviews.length / 2);
+const secondRow = reviews.slice(reviews.length / 2);
+const thirdRow = reviews.slice(0, reviews.length / 2);
+const fourthRow = reviews.slice(reviews.length / 2);
+
+const ReviewCard = ({
+  img,
+  name,
+  username,
+  body,
+}: {
+  img: string;
+  name: string;
+  username: string;
+  body: string;
+}) => {
   return (
-    <section id="reviews" className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-black dark:text-white">What Our Users Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {reviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 opacity-0 animate-fade-up"
-              style={{ animationDelay: `${index * 200}ms` }}
-            >
-              <div className="flex items-center mb-4">
-                <Image
-                  src={review.avatar || "/placeholder.svg"}
-                  alt={review.name}
-                  width={50}
-                  height={50}
-                  className="rounded-full mr-4"
-                />
-                <div>
-                  <h3 className="font-semibold text-black dark:text-white">{review.name}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{review.role}</p>
-                </div>
-              </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">{review.content}</p>
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-5 w-5 ${i < review.rating ? "text-yellow-500" : "text-gray-300 dark:text-gray-600"}`}
-                    fill="currentColor"
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+    <figure
+      className={cn(
+        "relative h-full w-36 cursor-pointer overflow-hidden rounded-xl border p-4",
+        // light styles
+        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+        // dark styles
+        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
+      )}
+    >
+      <div className="flex flex-row items-center gap-2">
+        <Image
+          className="rounded-full"
+          width="32"
+          height="32"
+          alt=""
+          src={img}
+        />
+        <div className="flex flex-col">
+          <figcaption className="text-sm font-medium dark:text-white">
+            {name}
+          </figcaption>
+          <p className="text-xs font-medium dark:text-white/40">{username}</p>
         </div>
       </div>
-    </section>
-  )
-}
+      <blockquote className="mt-2 text-sm">{body}</blockquote>
+    </figure>
+  );
+};
 
+export default function Marquee3D() {
+  return (
+    <div className="mt-[50px]">
+      <h2 className="text-4xl font-bold text-center mb-12">Reviews</h2>
+      <div className="relative flex h-96 w-full flex-row items-center justify-center gap-4 overflow-hidden [perspective:300px]">
+        <div
+          className="flex flex-row items-center gap-4"
+          style={{
+            transform:
+              "translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
+          }}
+        >
+          <Marquee pauseOnHover vertical className="[--duration:20s]">
+            {firstRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
+            {secondRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
+            {thirdRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee pauseOnHover className="[--duration:20s]" vertical>
+            {fourthRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+      </div>
+    </div>
+  );
+}

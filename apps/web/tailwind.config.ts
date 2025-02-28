@@ -8,14 +8,18 @@ export default {
   ],
   theme: {
   	extend: {
-		fontFamily : {
-			montserrat: ['var(--font-mont-serrat)']
-		},
+  		fontFamily: {
+  			montserrat: [
+  				'var(--font-mont-serrat)'
+  			]
+  		},
   		animation: {
   			'fade-up': 'fadeUp 0.8s ease-out forwards',
   			'fade-in': 'fadeIn 0.8s ease-out forwards',
   			'fade-left': 'fadeLeft 0.8s ease-out forwards',
-  			'toggle-switch': 'toggleSwitch 0.3s ease-in-out'
+  			'toggle-switch': 'toggleSwitch 0.3s ease-in-out',
+  			marquee: 'marquee var(--duration) infinite linear',
+  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
   		},
   		keyframes: {
   			fadeUp: {
@@ -52,6 +56,22 @@ export default {
   				},
   				'100%': {
   					transform: 'translateX(100%)'
+  				}
+  			},
+  			marquee: {
+  				from: {
+  					transform: 'translateX(0)'
+  				},
+  				to: {
+  					transform: 'translateX(calc(-100% - var(--gap)))'
+  				}
+  			},
+  			'marquee-vertical': {
+  				from: {
+  					transform: 'translateY(0)'
+  				},
+  				to: {
+  					transform: 'translateY(calc(-100% - var(--gap)))'
   				}
   			}
   		},
