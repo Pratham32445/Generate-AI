@@ -9,7 +9,9 @@ export default function Dashboard() {
         <div className="aspect-video rounded-xl bg-muted/50">
           <GenerationHistory />
         </div>
-        <div className="aspect-video rounded-xl bg-muted/50"></div>
+        <div className="aspect-video rounded-xl bg-muted/50">
+          
+        </div>
         <div className="aspect-video rounded-xl bg-muted/50">
           <CreditsInfo />
         </div>

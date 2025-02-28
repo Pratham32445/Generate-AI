@@ -74,8 +74,9 @@ export default function CreditsInfo() {
 
   if (!credits) {
     return (
-      <div>
+      <div className="w-full h-full flex flex-col justify-center items-center">
         <LoaderCircle className="animate-spin" />
+        <p>Loading...</p>
       </div>
     );
   }
