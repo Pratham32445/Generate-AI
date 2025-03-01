@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Camera } from "lucide-react"
-
+  
 const LiveImageCount = () => {
   const [images, setImages] = useState(500)
   const [isIncreasing, setIsIncreasing] = useState(false)

@@ -13,7 +13,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-const todayDate = new Date().getDate();
+// const todayDate = new Date().getDate();
 
 const chartData= Array.from({length : 20}).map((_,idx)=>({
   date : idx+1,
