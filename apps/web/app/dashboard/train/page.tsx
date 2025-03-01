@@ -121,7 +121,7 @@ const TrainModel = () => {
                 onValueChange={(value) =>
                   setType(value as "Man" | "Women" | "Other")
                 }
-              >
+              > 
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Gender" />
                 </SelectTrigger>
