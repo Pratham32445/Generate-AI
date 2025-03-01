@@ -35,6 +35,7 @@ const User = () => {
     getUser();
   }, []);
   if (!user) return;
+  
   return (
     user && (
       <div className="flex items-center gap-4 px-4">

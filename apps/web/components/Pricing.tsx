@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CircleCheckBig } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Pricing() {
   return (
@@ -42,7 +43,7 @@ export default function Pricing() {
                 </ul>
               </CardContent>
               <CardFooter className="w-full">
-                <Button className={`w-full p-5 text-lg hover:scale-105 transition-transform ${index == 1 && "bg-[#abc505]"}`}>
+                <Button onClick={()=>toast("we are working on the pricing section")} className={`w-full p-5 text-lg hover:scale-105 transition-transform ${index == 1 && "bg-[#abc505]"}`}>
                   {plan.buttonText}
                 </Button>
               </CardFooter>
