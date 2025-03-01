@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { ImagePlus, Grid3X3, List, Bell } from "lucide-react";
+import { ImagePlus, Grid3X3, Bell, List } from "lucide-react";
 import { motion } from "framer-motion";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
 import Settings from "@/components/Settings";
@@ -70,7 +70,7 @@ export default function ProfilePage() {
 
         <motion.div variants={itemVariants}>
           <Card className="mb-8 overflow-hidden">
-            <div className="h-32 bg-gradient-to-r from-purple-500 to-blue-500"></div>
+            <div className="bg-gradient-to-r from-[#DEFF00] via-[#FF3CAC] to-[#2B65FF] h-32 w-full"></div>
             <CardContent className="pt-0">
               <div className="flex flex-col md:flex-row gap-6 -mt-12">
                 <Avatar className="h-24 w-24 border-4 border-background">
@@ -81,14 +81,13 @@ export default function ProfilePage() {
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h2 className="text-2xl font-bold capitalize">
+                        <h2 className="text-2xl text-black font-bold capitalize">
                           {user.userName}
                         </h2>
                         <Badge className="bg-gradient-to-r from-purple-500 to-blue-500">
                           {1}
                         </Badge>
                       </div>
-                      <p className="text-muted-foreground">{user.email}</p>
                     </div>
                     <div className="flex gap-2">
                       <Button size="sm" variant="outline">
@@ -117,6 +116,9 @@ export default function ProfilePage() {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="my-4">
+                <p className="text-muted-foreground">{user.email}</p>
               </div>
             </CardContent>
           </Card>
