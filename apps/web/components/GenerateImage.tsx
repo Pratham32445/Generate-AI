@@ -22,7 +22,7 @@ const GenerateImage = () => {
   const GenerateImageWithoutModel = async () => {
     try {
       if (prompt.length == 0) {
-        toast("Please Provide the prompt");
+        toast.error("Please Provide the prompt");
         return;
       }
       setIsLoading(true);
@@ -54,7 +54,7 @@ const GenerateImage = () => {
     } catch (error) {
       if (isAxiosError(error)) {
         setIsLoading(false);
-        toast(error?.response?.data.message);
+        toast.error(error?.response?.data.message);
       }
     }
   };

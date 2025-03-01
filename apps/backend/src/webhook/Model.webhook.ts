@@ -85,6 +85,7 @@ webhookRouter.post("/fal-ai/webhook/generateImageWithoutModel", async (req, res)
 });
 
 webhookRouter.post("/fal-ai/webhook/train", async (req, res) => {
+  console.log(req);
   const request_id = req.body.request_id;
   const tensor_path = req.body.payload.diffusers_lora_file.url;
   const { imageUrl } = await falAIModel.generateImageAsync(tensor_path);
@@ -117,3 +118,5 @@ webhookRouter.post("/fal-ai/webhook/train", async (req, res) => {
 });
 
 export default webhookRouter;
+
+
