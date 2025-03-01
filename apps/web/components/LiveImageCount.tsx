@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-  
+
 const LiveImageCount = () => {
   const [images, setImages] = useState(500)
   const [isIncreasing, setIsIncreasing] = useState(false)
@@ -31,7 +31,7 @@ const LiveImageCount = () => {
   }, [])
 
   return (
-    <div className="flex h-full w-full justify-center items-center p-4 bg-muted/50">
+    <div className="flex h-full w-full justify-center items-center bg-muted/50">
       <Card className="w-full bg-muted/50 shadow-lg">
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">

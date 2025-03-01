@@ -31,7 +31,7 @@ export default function Component() {
   return (
     <Card className="bg-muted/50">
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="w-full h-[170px]">  
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -47,6 +47,7 @@ export default function Component() {
             <Bar dataKey="imagesCnt" fill="var(--color-desktop)" radius={5} />
           </BarChart>
         </ChartContainer>
+        <p>Image Generated During this Month</p>
       </CardContent>
     </Card>
   )
