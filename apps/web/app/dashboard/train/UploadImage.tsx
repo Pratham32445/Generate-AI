@@ -18,6 +18,7 @@ const UploadImage = ({
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL!}/pre-signed-url`
       );
+      console.log(res);
       if (res.status == 200) {
         const key = res.data.key;
         const url = res.data.url;
