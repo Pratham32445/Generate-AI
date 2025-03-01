@@ -49,6 +49,10 @@ const TrainModel = () => {
 
   const trainModel = async () => {
     try {
+      if (zipUrl.length == 0) {
+        toast.error("Please select the images to create a model");
+        return;
+      }
       setIsLoading({ started: false, status: true });
       const input: TrainModelTypes = {
         name,
