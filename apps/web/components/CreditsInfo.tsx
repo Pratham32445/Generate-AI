@@ -116,7 +116,7 @@ export default function CreditsInfo() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {credits}
+                          {Number(credits).toFixed(2)}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

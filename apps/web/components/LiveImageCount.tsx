@@ -1,14 +1,72 @@
-import React from "react";
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Camera } from "lucide-react"
 
 const LiveImageCount = () => {
-  return (
-    <div className="flex h-full justify-center items-center">
-      <div>
-        <p className="text-lg text-neutral-500">Images Generated Till Now...</p>
-        <p className="text-5xl text-center">500+...</p>
-      </div>
-    </div>
-  );
-};
+  const [images, setImages] = useState(500)
+  const [isIncreasing, setIsIncreasing] = useState(false)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-export default LiveImageCount;
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+    }
+
+    intervalRef.current = setInterval(() => {
+      setImages((prevCount) => {
+        const newCount = prevCount + Math.floor(Math.random() * 100)
+        setIsIncreasing(true)
+        setTimeout(() => setIsIncreasing(false), 1000)
+        return newCount
+      })
+    }, 5000)
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
+    }
+  }, [])
+
+  return (
+    <div className="flex h-full w-full justify-center items-center p-4 bg-muted/50">
+      <Card className="w-full bg-muted/50 shadow-lg">
+        <CardContent className="p-6">
+          <div className="flex flex-col items-center space-y-4">
+
+            <Badge variant="outline" className="px-3 py-1 text-sm font-medium">
+              Live Counter
+            </Badge>
+
+            <h3 className="text-lg font-medium text-muted-foreground text-center">Images Generated Till Now...</h3>
+
+            <div className="relative">
+              <p
+                className={`text-6xl font-bold text-center transition-all duration-1000 ${
+                  isIncreasing ? "scale-110 text-primary" : ""
+                }`}
+              >
+                {images.toLocaleString()}
+                <span className="text-primary">+</span>
+              </p>
+
+              {isIncreasing && (
+                <span className="absolute -top-2 -right-2 text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full animate-pulse">
+                  Updating
+                </span>
+              )}
+            </div>
+
+            <p className="text-sm text-muted-foreground text-center">Counter updates every 5 seconds</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default LiveImageCount
+

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getSession } from "next-auth/react";
 
 interface User {
-  profilePicture: string;
+  profilePicture: string; 
   credits: string;
   userName: string;
 }
