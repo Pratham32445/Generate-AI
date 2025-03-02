@@ -49,6 +49,7 @@ const TrainModel = () => {
 
   const trainModel = async () => {
     try {
+      console.log(zipUrl);
       if (zipUrl.length == 0) {
         toast.error("Please select the images to create a model");
         return;
