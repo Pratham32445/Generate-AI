@@ -10,6 +10,7 @@ const TRAIN_MODEL = 4;
 const GENERATE_IMAGE = 0.4;
 
 webhookRouter.post("/fal-ai/webhook/generate", async (req, res) => {
+  console.log("webhook triggered")
   const request_id = req.body.request_id;
   if (req.body?.payload?.images[0]?.url) {
     const outputImage = await prismaClient.outputImages.updateManyAndReturn({
@@ -48,6 +49,7 @@ webhookRouter.post("/fal-ai/webhook/generate", async (req, res) => {
 
 
 webhookRouter.post("/fal-ai/webhook/generateImageWithoutModel", async (req, res) => {
+  console.log("webhook triggered")
   const request_id = req.body.request_id;
   if (req.body?.payload?.images[0]?.url) {
     const outputImage = await prismaClient.outputImagesWithoutModel.updateManyAndReturn({
@@ -85,6 +87,7 @@ webhookRouter.post("/fal-ai/webhook/generateImageWithoutModel", async (req, res)
 });
 
 webhookRouter.post("/fal-ai/webhook/train", async (req, res) => {
+  console.log("webhook triggered")
     const request_id = req.body.request_id;
     const tensor_path = req.body.payload.diffusers_lora_file.url;
     const { imageUrl } = await falAIModel.generateImageAsync(tensor_path);
