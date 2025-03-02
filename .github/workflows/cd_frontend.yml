@@ -36,24 +36,22 @@ jobs:
           tags: |
             pratham59/generate-ai-frontend-main:${{ github.sha }}
             pratham59/generate-ai-frontend-main:latest
-
       - name: Deploy to VM
         run: |
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/ssh_key
           chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
-
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.141.45 -t "
             sudo docker stop Generate-AI-frontend || true;
             sudo docker rm Generate-AI-frontend || true;
             sudo docker rmi pratham59/generate-ai-frontend-main:latest || true; 
             sudo docker pull pratham59/generate-ai-frontend-main:latest;
             sudo docker run -d -p 3000:3000 --name Generate-AI-frontend \
-              -e NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}} \
-              -e NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}} \ 
-              -e CLIENT_ID=${{secrets.CLIENT_ID}} \
-              -e CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
-              -e NEXT_PUBLIC_BACKEND_URL=${{secrets.NEXT_PUBLIC_BACKEND_URL}} \
-              -e NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}} \
-              -e NEXT_PUBLIC_PRODUCTION_URL=${{secrets.NEXT_PUBLIC_PRODUCTION_URL}} \
+              -e NEXTAUTH_URL='${{secrets.NEXTAUTH_URL}}' \
+              -e NEXTAUTH_SECRET='${{secrets.NEXTAUTH_SECRET}}' \
+              -e CLIENT_ID='${{secrets.CLIENT_ID}}' \
+              -e CLIENT_SECRET='${{secrets.CLIENT_SECRET}}' \
+              -e NEXT_PUBLIC_BACKEND_URL='${{secrets.NEXT_PUBLIC_BACKEND_URL}}' \
+              -e NEXT_PUBLIC_S3_URL='${{secrets.NEXT_PUBLIC_S3_URL}}' \
+              -e NEXT_PUBLIC_PRODUCTION_URL='${{secrets.NEXT_PUBLIC_PRODUCTION_URL}}' \
               pratham59/generate-ai-frontend-main:latest"
