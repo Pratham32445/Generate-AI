@@ -85,36 +85,35 @@ webhookRouter.post("/fal-ai/webhook/generateImageWithoutModel", async (req, res)
 });
 
 webhookRouter.post("/fal-ai/webhook/train", async (req, res) => {
-  console.log("body",req.body,JSON.stringify(req.body.payload));
-  const request_id = req.body.request_id;
-  const tensor_path = req.body.payload.diffusers_lora_file.url;
-  const { imageUrl } = await falAIModel.generateImageAsync(tensor_path);
-  const model = await prismaClient.model.updateManyAndReturn({
-    where: {
-      falAiRequestId: request_id,
-    },
-    data: {
-      status: "Generated",
-      tensorPath: tensor_path,
-      thumbnail: imageUrl,
-    },
-  });
-  const user = await prismaClient.user.findFirst({
-    where: {
-      Id: model[0].userId,
-    },
-  });
-  await prismaClient.user.update({
-    where: {
-      Id: model[0].userId,
-    },
-    data: {
-      credits: +user!.credits - TRAIN_MODEL,
-    },
-  });
-  res.json({
-    message: model,
-  });
+    const request_id = req.body.request_id;
+    const tensor_path = req.body.payload.diffusers_lora_file.url;
+    const { imageUrl } = await falAIModel.generateImageAsync(tensor_path);
+    const model = await prismaClient.model.updateManyAndReturn({
+      where: {
+        falAiRequestId: request_id,
+      },
+      data: {
+        status: "Generated",
+        tensorPath: tensor_path,
+        thumbnail: imageUrl,
+      },
+    });
+    const user = await prismaClient.user.findFirst({
+      where: {
+        Id: model[0].userId,
+      },
+    });
+    await prismaClient.user.update({
+      where: {
+        Id: model[0].userId,
+      },
+      data: {
+        credits: +user!.credits - TRAIN_MODEL,
+      },
+    });
+    res.json({
+      message: model,
+    });
 });
 
 export default webhookRouter;
