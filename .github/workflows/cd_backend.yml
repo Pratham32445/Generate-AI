@@ -35,7 +35,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.159.63 -t "  
             sudo docker stop Generate-AI-backend || true;
             sudo docker rm Generate-AI-backend || true;
-            sudo docker pull pratham59/generate-ai-backend-main:${{ github.sha }};
+            sudo docker pull pratham59/generate-ai-backend-main:${{ github.sha }};  
           sudo docker run -d -p 8080:8080 --name Generate-AI-backend \
                   -e DATABASE_URL=${{secrets.DATABASE_URL}} \
                   -e ACCESS_KEY_ID=${{secrets.ACCESS_KEY_ID}} \
