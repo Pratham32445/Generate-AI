@@ -64,9 +64,9 @@ app.get("/pre-signed-url", async (req, res) => {
     Key: key,
   });
   const url = await getSignedUrl(s3client, command, { expiresIn: 60 * 5 });
-  res.header("Access-Control-Allow-Origin", ["http://localhost:3000", 'https://generate.ai.code10x.online']);
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
 
   res.json({
     url,
@@ -176,9 +176,10 @@ app.get("/user/me", authMiddleware, async (req, res) => {
 });
 
 app.options("/pre-signed-url", (req, res) => {
-  res.header("Access-Control-Allow-Origin", ["http://localhost:3000", 'https://generate.ai.code10x.online']);
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.sendStatus(200);
 });
 
