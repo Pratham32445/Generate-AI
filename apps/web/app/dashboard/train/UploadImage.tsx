@@ -35,6 +35,7 @@ const UploadImage = ({
           },
         });
         if (resdata.status == 200) {
+          console.log(process.env.NEXT_PUBLIC_S3_URL,"url");
           onUploadDone(`${process.env.NEXT_PUBLIC_S3_URL!}/${key}`);
         }
       }

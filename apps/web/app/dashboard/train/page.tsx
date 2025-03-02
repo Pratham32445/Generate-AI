@@ -49,7 +49,8 @@ const TrainModel = () => {
 
   const trainModel = async () => {
     try {
-      console.log(zipUrl);
+      console.log(zipUrl,"zipurl");
+      console.log(process.env.NEXT_PUBLIC_S3_URL,"url1")
       if (zipUrl.length == 0) {
         toast.error("Please select the images to create a model");
         return;
