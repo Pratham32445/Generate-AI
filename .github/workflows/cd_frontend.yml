@@ -52,7 +52,7 @@ jobs:
               -e NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}} \
               -e NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}} \
               -e CLIENT_ID=${{secrets.CLIENT_ID}} \
-              -e CLIENT_SECRET=${{secrets.CLIENT_SECRET}} \
+              -e CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
               -e NEXT_PUBLIC_BACKEND_URL=${{secrets.NEXT_PUBLIC_BACKEND_URL}} \
               -e NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}} \
               -e NEXT_PUBLIC_PRODUCTION_URL=${{secrets.NEXT_PUBLIC_PRODUCTION_URL}} \
