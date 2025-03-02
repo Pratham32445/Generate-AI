@@ -1,4 +1,5 @@
-name: Deploy the backend
+name: Deploy the Frontend
+
 on:
   push:
     branches: [main]
@@ -21,31 +22,36 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./docker/Dockerfile.backend
+          file: ./docker/Dockerfile.frontend
+          build-args: |
+            DATABASE_URL=${{secrets.DATABASE_URL}}
+            NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}}
+            NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}}
+            CLIENT_ID=${{secrets.CLIENT_ID}} 
+            CLIENT_SECRET=${{secrets.CLIENT_SECRET}}
+            NEXT_PUBLIC_BACKEND_URL=${{secrets.NEXT_PUBLIC_BACKEND_URL}}
+            NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}}
+            NEXT_PUBLIC_PRODUCTION_URL=${{secrets.NEXT_PUBLIC_PRODUCTION_URL}}
           push: true
           tags: |
-            pratham59/generate-ai-backend-main:${{ github.sha }}
-            pratham59/generate-ai-backend-main:latest
-
+            pratham59/generate-ai-frontend-main:${{ github.sha }}
+            pratham59/generate-ai-frontend-main:latest
       - name: Deploy to VM
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/ssh_key
           chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
-
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.159.63 -t "  
-            sudo docker stop Generate-AI-backend || true;
-            sudo docker rm Generate-AI-backend || true;
-            sudo docker rmi pratham59/generate-ai-backend-main:latest || true; 
-            sudo docker pull pratham59/generate-ai-backend-main:latest;
-          sudo docker run -d -p 8080:8080 --name Generate-AI-backend \
-                  -e DATABASE_URL=${{secrets.DATABASE_URL}} \
-                  -e ACCESS_KEY_ID=${{secrets.ACCESS_KEY_ID}} \
-                  -e SECRET_ACCESS_KEY=${{secrets.SECRET_ACCESS_KEY}} \
-                  -e BUCKET_NAME=${{secrets.BUCKET_NAME}} \
-                  -e END_POINT=${{secrets.END_POINT}} \
-                  -e FAL_API_KEY=${{secrets.FAL_API_KEY}} \
-                  -e JWT_SECRET=${{secrets.JWT_SECRET}} \
-                  -e WEBHOOK_URL=${{secrets.WEBHOOK_URL}} \
-                  pratham59/generate-ai-backend-main:latest
-          "
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.141.45 -t "
+            sudo docker stop Generate-AI-frontend || true;
+            sudo docker rm Generate-AI-frontend || true;
+            sudo docker rmi pratham59/generate-ai-frontend-main:latest || true; 
+            sudo docker pull pratham59/generate-ai-frontend-main:latest;
+            sudo docker run -d -p 3000:3000 --name Generate-AI-frontend \
+              -e NEXTAUTH_URL='${{secrets.NEXTAUTH_URL}}' \
+              -e NEXTAUTH_SECRET='${{secrets.NEXTAUTH_SECRET}}' \
+              -e CLIENT_ID='${{secrets.CLIENT_ID}}' \
+              -e CLIENT_SECRET='${{secrets.CLIENT_SECRET}}' \
+              -e NEXT_PUBLIC_BACKEND_URL='${{secrets.NEXT_PUBLIC_BACKEND_URL}}' \
+              -e NEXT_PUBLIC_S3_URL='${{secrets.NEXT_PUBLIC_S3_URL}}' \
+              -e NEXT_PUBLIC_PRODUCTION_URL='${{secrets.NEXT_PUBLIC_PRODUCTION_URL}}' \
+              pratham59/generate-ai-frontend-main:latest"
