@@ -47,6 +47,7 @@ export class FalAiModel extends BaseModel {
     };
   }
   async generateImageWithoutModel(prompt: string) {
+    console.log(process.env.WEBHOOK_URL);
     const { request_id } = await fal.queue.submit("fal-ai/flux-lora", {
       input: {
         prompt: prompt,

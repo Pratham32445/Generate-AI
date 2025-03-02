@@ -25,7 +25,6 @@ jobs:
           push: true
           tags: |
             pratham59/generate-ai-backend-main:${{ github.sha }}
-            pratham59/generate-ai-backend-main:latest
 
       - name: Deploy to VM
         run: |
@@ -36,8 +35,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.232.159.63 -t "  
             sudo docker stop Generate-AI-backend || true;
             sudo docker rm Generate-AI-backend || true;
-            sudo docker rmi pratham59/generate-ai-backend-main:latest || true; 
-            sudo docker pull pratham59/generate-ai-backend-main:latest;
+            sudo docker pull pratham59/generate-ai-backend-main:${{ github.sha }};
           sudo docker run -d -p 8080:8080 --name Generate-AI-backend \
                   -e DATABASE_URL=${{secrets.DATABASE_URL}} \
                   -e ACCESS_KEY_ID=${{secrets.ACCESS_KEY_ID}} \
@@ -47,5 +45,5 @@ jobs:
                   -e FAL_API_KEY=${{secrets.FAL_API_KEY}} \
                   -e JWT_SECRET=${{secrets.JWT_SECRET}} \
                   -e WEBHOOK_URL=${{secrets.WEBHOOK_URL}} \
-                  pratham59/generate-ai-backend-main:latest
+                  pratham59/generate-ai-backend-main:${{ github.sha }}
           "

@@ -95,7 +95,6 @@ app.get("/model/image", async (req, res) => {
   try {
     const Id = req.query.imageId as string;
     const model = req.query.model as string;
-    console.log(Id, model);
     if (model == "outputImages") {
       const image = await prismaClient.outputImages.findFirst({
         where: {
