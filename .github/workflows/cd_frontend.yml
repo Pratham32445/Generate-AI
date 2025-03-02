@@ -30,7 +30,7 @@ jobs:
             CLIENT_ID=${{secrets.CLIENT_ID}} 
             CLIENT_SECRET=${{secrets.CLIENT_SECRET}}
             NEXT_PUBLIC_BACKEND_URL=${{secrets.NEXT_PUBLIC_BACKEND_URL}}
-            NEXT_PUBLIC_CLOUDFLARE_URL=${{secrets.NEXT_PUBLIC_CLOUDFLARE_URL}}
+            NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}}
             NEXT_PUBLIC_PRODUCTION_URL=${{secrets.NEXT_PUBLIC_PRODUCTION_URL}}
           push: true
           tags: |
@@ -54,6 +54,6 @@ jobs:
               -e CLIENT_ID=${{secrets.CLIENT_ID}} \
               -e CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
               -e NEXT_PUBLIC_BACKEND_URL=${{secrets.NEXT_PUBLIC_BACKEND_URL}} \
-              -e NEXT_PUBLIC_CLOUDFLARE_URL=${{secrets.NEXT_PUBLIC_CLOUDFLARE_URL}} \
+              -e NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}} \
               -e NEXT_PUBLIC_PRODUCTION_URL=${{secrets.NEXT_PUBLIC_PRODUCTION_URL}} \
               pratham59/generate-ai-frontend-main:latest"
