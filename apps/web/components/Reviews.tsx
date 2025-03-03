@@ -4,6 +4,12 @@ import Image from "next/image";
 
 const reviews = [
   {
+    name: "Raj",
+    username: "@raj_visuals",
+    body: "This AI tool is fantastic! It understands Indian themes perfectly and generates beautiful images in seconds.",
+    img: "https://avatar.vercel.sh/raj",
+  },  
+  {
     name: "Jack",
     username: "@jack",
     body: "I've never seen anything like this before. It's amazing. I love it.",
@@ -14,12 +20,6 @@ const reviews = [
     username: "@jill",
     body: "I don't know what to say. I'm speechless. This is amazing.",
     img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/john",
   },
 ];
 

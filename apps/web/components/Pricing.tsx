@@ -44,7 +44,7 @@ export default function Pricing() {
                 </ul>
               </CardContent>
               <CardFooter className="w-full">
-                <Button onClick={()=>toast("we are working on the pricing section")} className={`w-full p-5 text-lg hover:scale-105 transition-transform ${index == 1 && "bg-[#abc505]"}`}>
+                <Button onClick={()=>toast("This Feature is Under Development")} className={`w-full p-5 text-lg hover:scale-105 transition-transform ${index == 1 && "bg-[#abc505]"}`}>
                   {plan.buttonText}
                 </Button>
               </CardFooter>
