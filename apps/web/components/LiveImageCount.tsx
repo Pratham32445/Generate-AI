@@ -31,11 +31,10 @@ const LiveImageCount = () => {
   }, [])
 
   return (
-    <div className="flex h-full w-full justify-center items-center bg-muted/50">
-      <Card className="w-full bg-muted/50 shadow-lg">
+    <div className="bg-amber-500/5 border-2 border-neutral-800/50 rounded-2xl p-6 border-amber-700 transition-all duration-300 gap-2 h-full flex flex-col items-start justify-center">
+      <Card className="w-full bg-transparent border-none">
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">
-
             <Badge variant="outline" className="px-3 py-1 text-sm font-medium">
               Live Counter
             </Badge>

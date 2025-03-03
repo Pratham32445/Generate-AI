@@ -49,8 +49,6 @@ const TrainModel = () => {
 
   const trainModel = async () => {
     try {
-      console.log(zipUrl,"zipurl");
-      console.log(process.env.NEXT_PUBLIC_S3_URL,"url1")
       if (zipUrl.length == 0) {
         toast.error("Please select the images to create a model");
         return;
@@ -75,7 +73,6 @@ const TrainModel = () => {
           },
         }
       );
-      console.log(response);
       if (response.status == 200) {
         setIsLoading({ status: true, started: true });
         setRequestid(response.data.request_id);
@@ -88,8 +85,8 @@ const TrainModel = () => {
     }
   };
   return (
-    <div className="flex justify-center mb-10 opacity-0 animate-fade-up  [animation-delay:400ms]">
-      <Card className="w-3/4 mt-[30px]">
+    <div className="flex justify-center mb-10 opacity-0 animate-fade-up  [animation-delay:400ms] w-full p-5 md:p-2">
+      <Card className="w-full md:w-3/4 mt-[30px]">
         <CardHeader>
           <Brain />
           <CardTitle>Train New Model</CardTitle>

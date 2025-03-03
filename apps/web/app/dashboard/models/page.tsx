@@ -35,7 +35,7 @@ const Models = async () => {
   return (
     <div className="p-4 px-8">
       <div>
-        <h3 className="mt-10 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
+        <h3 className="mt-10 scroll-m-20 pb-2 text-md md:text-2xl font-semibold tracking-tight transition-colors first:mt-0">
           Currently Training
         </h3>
         <div className="my-4">
@@ -69,7 +69,7 @@ const Models = async () => {
         </div>
       </div>
       <div>
-        <h3 className="mt-10 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
+        <h3 className="mt-10 scroll-m-20 pb-2 text-md md:text-2xl font-semibold tracking-tight transition-colors first:mt-0">
           Trainded Models
         </h3>
         <div className="flex flex-wrap gap-4 mt-[10px]">
