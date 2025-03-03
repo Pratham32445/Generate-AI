@@ -59,8 +59,8 @@ const Images = () => {
         </Link>
       </div>
       <div>
-        <p className="mx-10 text-xl">Without Models</p>
-        <div className="flex flex-wrap gap-4 p-4 animate-fade-up opacity-0 [animation-delay:200ms]">
+        <p className="mx-10 text-md">Without Models</p>
+        <div className="flex flex-wrap gap-4 p-4 px-10 animate-fade-up opacity-0 [animation-delay:200ms]">
           {withoutModels.length > 0 ? (
             withoutModels.reverse().map((image: Image) => (
               <div
@@ -97,8 +97,8 @@ const Images = () => {
         </div>
       </div>
       <div>
-        <p className="mx-10 text-xl">With Models</p>
-        <div className="flex justify-center flex-wrap gap-4 p-4 animate-fade-up  opacity-0 [animation-delay:200ms]">
+        <p className="mx-10 mt-[30px] text-md">With Models</p>
+        <div className="flex flex-wrap gap-4 p-4 px-10 animate-fade-up opacity-0 [animation-delay:200ms]">
           {withModels.length > 0 ? (
             withModels.reverse().map((image: Image) => (
               <div

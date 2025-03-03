@@ -52,14 +52,14 @@ const data = [
     icon: Image,
   },
   {
-    name: "Add Credit",
-    link: "/dashboard/add-credit",
-    icon: CreditCard,
-  },
-  {
     name: "Packs",
     link: "/dashboard/packs",
     icon: Package,
+  },
+  {
+    name: "Add Credit",
+    link: "/dashboard/add-credit",
+    icon: CreditCard,
   },
   {
     name: "Profile",

@@ -28,11 +28,11 @@ export function ImageCard({ image }: ImageCardProps) {
       whileHover="hover"
     >
       <Image
-        width={300}
-        height={300}
+        width={200}
+        height={200}
         src={image.imageUrl}
         alt={image.title}
-        className="w-full aspect-square object-cover transition-transform"
+        className="aspect-square object-cover transition-transform"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
         <h3 className="text-white font-medium">{image.title}</h3>

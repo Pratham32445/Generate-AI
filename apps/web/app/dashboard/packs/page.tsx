@@ -6,7 +6,11 @@
 const Packs = async () => {
   // const packs = await prismaClient.pack.findMany({});
   return (
-    <div></div>
+    <div className="flex h-[60vh] justify-center items-center">
+      <div>
+        <h1 className="md:text-3xl">We are Currently on Pack Feature</h1>
+      </div>
+    </div>
     // <div className="flex flex-wrap pt-5 px-4">
     //   {packs &&
     //     packs.map(({ Id, name }: { Id: string; name: string }) => (

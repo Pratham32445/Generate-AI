@@ -97,7 +97,7 @@ const Generate = () => {
   return (
     <div>
       {!isLoading ? (
-        <div className="p-4 animate-fade-up  opacity-0 [animation-delay:400ms]">
+        <div className="p-4 animate-fade-up  opacity-0 [animation-delay:400ms] mt-[20px] md:mt-[5px]">
           <div className="mb-10">
             <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
               Generate Image With Model
