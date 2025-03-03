@@ -75,13 +75,13 @@ export default function ProfilePage() {
               <div className="flex flex-col md:flex-row gap-6 -mt-12">
                 <Avatar className="h-24 w-24 border-4 border-background">
                   <AvatarImage src={user.profilePicture} alt={user.userName} />
-                  <AvatarFallback>AJ</AvatarFallback>
+                  <AvatarFallback>{user.userName.split(" ")[0][0]}{user.userName.split(" ")[1][0]}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 pt-12 md:pt-0">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h2 className="text-2xl text-black font-bold capitalize">
+                        <h2 className="text-2xl text-white md:text-black font-bold capitalize">
                           {user.userName}
                         </h2>
                         <Badge className="bg-gradient-to-r from-purple-500 to-blue-500">

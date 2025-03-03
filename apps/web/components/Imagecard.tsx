@@ -10,7 +10,7 @@ interface ImageData {
   id: string;
   title: string;
   prompt: string;
-  likes: number;
+  likes: number;  
   downloads: number;
   date: Date;
   imageUrl: string;

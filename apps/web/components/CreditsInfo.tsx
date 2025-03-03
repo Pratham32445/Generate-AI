@@ -82,57 +82,61 @@ export default function CreditsInfo() {
   }
 
   return (
-    <Card className="col-span-1 bg-green-500/5 border-2 border-neutral-800/50 rounded-2xl p-6 border-green-700 hover:bg-green-500/10 transition-all duration-300 flex flex-col gap-12 h-full w-full relative">
-      <CardContent className="flex-1 pb-0 flex items-center">
-        <p>Credits Remaining</p>
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[220px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={60}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+    <Card className="bg-green-500/5 border-2 border-neutral-800/50 rounded-2xl  border-green-700 hover:bg-green-500/10 transition-all duration-300 h-full w-full relative p-0">
+      <CardContent className="flex-1 pb-0">
+        <div className="absolute mt-3">
+          <p>Credits Remaining</p>
+        </div>
+        <div className="ml-10">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[220px]"
+          >
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey="visitors"
+                nameKey="browser"
+                innerRadius={60}
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          {Number(credits).toFixed(2)}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Credits
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-3xl font-bold"
+                          >
+                            {Number(credits).toFixed(2)}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Credits
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        </div>
       </CardContent>
     </Card>
   );
