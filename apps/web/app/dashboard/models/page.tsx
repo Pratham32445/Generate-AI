@@ -79,7 +79,7 @@ const Models = async () => {
             </div>
           ))}
         </div>
-      </div>
+      </div>  
     </div>
   );
 };

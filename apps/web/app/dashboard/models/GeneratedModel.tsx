@@ -29,7 +29,7 @@ interface ModelType {
   ethinicity: string;
   eyeColor: string;
   bald: boolean;
-}
+} 
 
 const GeneratedModelCard = ({ model }: { model: ModelType }) => {
   const [open, setOpen] = useState(false);

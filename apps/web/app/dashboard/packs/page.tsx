@@ -4,7 +4,7 @@
 // import Image from "next/image";
 
 const Packs = async () => {
-  // const packs = await prismaClient.pack.findMany({});
+  
   return (
     <div className="flex h-[60vh] justify-center items-center">
       <div>

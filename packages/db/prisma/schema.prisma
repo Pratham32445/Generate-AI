@@ -22,7 +22,7 @@ model User {
   model                    Model[]
   outputImages             OutputImages[]
   outputImagesWithoutModel OutputImagesWithoutModel[]
-  credits                  Decimal                    @default(2)
+  credits                  Decimal                    @default(5)
   createdAt                DateTime                   @default(now())
   updatedAt                DateTime                   @updatedAt
 }
@@ -84,12 +84,13 @@ model Pack {
   Id         String       @id @default(uuid())
   name       String
   packPrompt PackPrompt[]
+  thumbnail  String
 }
 
 model PackPrompt {
   Id     String @id @default(uuid())
   prompt String
-  packId String
+  packId String @default("")
   pack   Pack   @relation(fields: [packId], references: [Id])
 }
 

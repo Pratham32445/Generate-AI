@@ -136,7 +136,14 @@ const Generate = () => {
               )}
             </div>
           </div>
-          <div className="mt-8">
+          <div className="my-6">
+            <p className="text-neutral-500">
+              Note: In Your Prompt refereed user with Trigger Word means if your
+              model trigger word is Rahul so give the prompt as Generate a image
+              for Rahul where Rahul is...
+            </p>
+          </div>
+          <div className="mt-3">
             <Label htmlFor="prompt my-2">Prompt</Label>
             <Textarea
               id="prompt"

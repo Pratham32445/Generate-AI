@@ -16,7 +16,7 @@ const Login = () => {
     <div className="w-full min-h-screen">
       <Navbar />
       <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-        <Card className="w-[500px]">
+        <Card className="w-[90%] md:w-[500px] ">
           <CardHeader className="text-center">
             <CardTitle className="text-xl">Welcome back</CardTitle>
             <CardDescription>
@@ -29,8 +29,8 @@ const Login = () => {
                 <Button
                   onClick={() => {
                     console.log("error");
-                    signIn("google",{
-                      callbackUrl : "/dashboard"
+                    signIn("google", {
+                      callbackUrl: "/dashboard",
                     });
                   }}
                   variant="outline"
