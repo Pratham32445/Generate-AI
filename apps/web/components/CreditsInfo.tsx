@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { LoaderCircle } from "lucide-react";
-import { ScrollArea } from "./ui/scroll-area";  
+import { ScrollArea } from "./ui/scroll-area";
 
 export default function CreditsInfo() {
   const [credits, setCredits] = React.useState<null | string>(null);
@@ -53,8 +53,6 @@ export default function CreditsInfo() {
     );
   }
 
-  console.log(Images);
-
   return (
     <Card className="bg-green-500/5 border-2 border-neutral-800/50 rounded-2xl  border-green-700 hover:bg-green-500/10 transition-all duration-300 h-full w-full">
       <CardContent className="flex-1 p-4">
@@ -70,14 +68,22 @@ export default function CreditsInfo() {
         <div className="my-3">
           <p className="text-xs text-neutral-500">History</p>
           <ScrollArea className="h-[90px]">
-            {Images &&
+            {Images.length > 0 ? (
               Images.map(
                 ({ createdAt, Id }: { createdAt: Date; Id: string }) => (
                   <div key={Id}>
-                    <p className="text-xs my-1">{new Date(createdAt).toLocaleDateString()}</p>
+                    <p className="text-xs my-1">
+                      {new Date(createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                 )
-              )}
+              )
+            ) : (
+              <div>
+                {" "}
+                <p className="text-xs text-center">No History Yet</p>{" "}
+              </div>
+            )}
           </ScrollArea>
         </div>
       </CardContent>
