@@ -180,7 +180,6 @@ const Generate = ({
   setisLoading: (value: boolean) => void;
   outputImages: Image[];
 }) => {
-  console.log(outputImages);
   return (
     <Dialog open={isLoading} onOpenChange={(value) => setisLoading(value)}>
       <DialogContent>

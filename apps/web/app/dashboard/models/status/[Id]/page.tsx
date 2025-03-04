@@ -44,7 +44,7 @@ const ModelStatus = ({ params }: { params: Promise<{ Id: string }> }) => {
   
 
 
-  return loading ? (
+  return loading || modellogs.length == 0 ? (
     <div>
       <div className="flex justify-center">
         <LoaderCircle className="animate-spin" />

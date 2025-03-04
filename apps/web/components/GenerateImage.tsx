@@ -17,7 +17,9 @@ const GenerateImage = () => {
     imageUrl: string;
     prompt: string;
     createdAt: Date;
-  }>({ imageUrl: "", prompt: "", createdAt: new Date() });
+    Id: string;
+    modelId: string;
+  }>({ imageUrl: "", prompt: "", createdAt: new Date(), Id: "", modelId: "" });
 
   const GenerateImageWithoutModel = async () => {
     try {
@@ -91,7 +93,12 @@ const GenerateImage = () => {
         if you want to generate Image with Model then{" "}
         <Link href="/dashboard/generate">Click here</Link>
       </p>
-      <OutputImage open={isGenerated} setOpen={setisGenerated} image={image} />
+      <OutputImage
+        deleteStatus={() => console.log("Hello")}
+        open={isGenerated}
+        setOpen={setisGenerated}
+        image={image}
+      />
     </div>
   );
 };

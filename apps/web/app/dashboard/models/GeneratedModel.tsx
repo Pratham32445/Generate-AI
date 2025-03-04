@@ -33,7 +33,6 @@ interface ModelType {
 
 const GeneratedModelCard = ({ model }: { model: ModelType }) => {
   const [open, setOpen] = useState(false);
-  console.log(model);
   return (
     <div>
       <Card
