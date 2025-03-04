@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 const LiveImageCount = () => {
   const [images, setImages] = useState(500);
@@ -35,17 +34,13 @@ const LiveImageCount = () => {
       <Card className="w-full bg-transparent border-none">
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">
-            <Badge variant="outline" className="px-3 py-1 text-sm font-medium">
-              Live Counter
-            </Badge>
-
-            <h3 className="text-lg font-medium text-muted-foreground text-center">
+            <h3 className="text-md font-medium text-muted-foreground text-center">
               Images Generated Till Now...
             </h3>
 
             <div className="relative">
               <p
-                className={`text-6xl font-bold text-center transition-all duration-1000 ${
+                className={`text-2xl md:text-4xl font-bold text-center transition-all duration-1000 ${
                   isIncreasing ? "scale-110 text-primary" : ""
                 }`}
               >
@@ -59,10 +54,6 @@ const LiveImageCount = () => {
                 </span>
               )}
             </div>
-
-            <p className="text-sm text-muted-foreground text-center">
-              Counter updates every 5 seconds
-            </p>
           </div>
         </CardContent>
       </Card>

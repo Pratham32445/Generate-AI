@@ -1,54 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { Label, Pie, PieChart } from "recharts";
 
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { LoaderCircle } from "lucide-react";
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
-
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig;
+import { ScrollArea } from "./ui/scroll-area";  
 
 export default function CreditsInfo() {
   const [credits, setCredits] = React.useState<null | string>(null);
+  const [Images, setImages] = React.useState([]);
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -65,12 +27,22 @@ export default function CreditsInfo() {
           },
         }
       );
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/images`,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenData.data.token}`,
+          },
+        }
+      );
+      setImages([
+        ...(response.data.withModels as []),
+        ...(response.data.withoutModels as []),
+      ]);
       setCredits(userData.data.user.credits);
     };
     getUser();
   }, []);
-
-  console.log(credits);
 
   if (!credits) {
     return (
@@ -81,61 +53,32 @@ export default function CreditsInfo() {
     );
   }
 
+  console.log(Images);
+
   return (
-    <Card className="bg-green-500/5 border-2 border-neutral-800/50 rounded-2xl  border-green-700 hover:bg-green-500/10 transition-all duration-300 h-full w-full relative p-0">
-      <CardContent className="flex-1 pb-0">
-        <div className="absolute mt-3">
-          <p>Credits Remaining</p>
+    <Card className="bg-green-500/5 border-2 border-neutral-800/50 rounded-2xl  border-green-700 hover:bg-green-500/10 transition-all duration-300 h-full w-full">
+      <CardContent className="flex-1 p-4">
+        <div>
+          <p className="text-neutral-300">Credits : {credits}</p>
+          <p className="text-neutral-300">
+            You can Generate : {Math.floor(+4 / 0.4)} Images
+          </p>
+          <p className="text-neutral-300">
+            You can Train : {Math.floor(+5 / 4.0)} Models
+          </p>
         </div>
-        <div className="ml-10">
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[220px]"
-          >
-            <PieChart>
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
-              <Pie
-                data={chartData}
-                dataKey="visitors"
-                nameKey="browser"
-                innerRadius={60}
-                strokeWidth={5}
-              >
-                <Label
-                  content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                      return (
-                        <text
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                        >
-                          <tspan
-                            x={viewBox.cx}
-                            y={viewBox.cy}
-                            className="fill-foreground text-3xl font-bold"
-                          >
-                            {Number(credits).toFixed(2)}
-                          </tspan>
-                          <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 24}
-                            className="fill-muted-foreground"
-                          >
-                            Credits
-                          </tspan>
-                        </text>
-                      );
-                    }
-                  }}
-                />
-              </Pie>
-            </PieChart>
-          </ChartContainer>
+        <div className="my-3">
+          <p className="text-xs text-neutral-500">History</p>
+          <ScrollArea className="h-[90px]">
+            {Images &&
+              Images.map(
+                ({ createdAt, Id }: { createdAt: Date; Id: string }) => (
+                  <div key={Id}>
+                    <p className="text-xs my-1">{new Date(createdAt).toLocaleDateString()}</p>
+                  </div>
+                )
+              )}
+          </ScrollArea>
         </div>
       </CardContent>
     </Card>
