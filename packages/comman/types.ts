@@ -7,7 +7,7 @@ export const user = z.object({
 });
 
 export const TrainModel = z.object({
-  Id : z.string().optional(),
+  Id: z.string().optional(),
   name: z.string(),
   type: z.enum(["Man", "Women", "Other"]),
   age: z.number(),
@@ -23,8 +23,9 @@ export const TrainModel = z.object({
   ]),
   eyeColor: z.enum(["Brown", "Blue", "Hazel", "Gray"]),
   bald: z.boolean(),
-  zipUrl : z.string(),
-  tensorPath: z.string().optional()
+  zipUrl: z.string(),
+  tensorPath: z.string().optional(),
+  thumbnail : z.string().optional()
 });
 
 export const GenerateImage = z.object({

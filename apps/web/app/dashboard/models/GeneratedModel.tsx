@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface ModelType {
   name: string;
-  thumbnail: string;
+  thumbnail: string | null;
   createdAt: Date;
   status: string;
   ethinicity: string;
@@ -90,7 +90,7 @@ const ModelCard = ({
         <div>
           <p className="my-2">Thumbnail Image</p>
           <Image
-            src={model.thumbnail}
+            src={model.thumbnail!}
             width={300}
             height={300}
             className="w-full"
@@ -100,7 +100,7 @@ const ModelCard = ({
             width={15}
             height={15}
             className="my-5 cursor-pointer"
-            onClick={() => downloadImage(model.thumbnail)}
+            onClick={() => downloadImage(model.thumbnail!)}
           />
           <p className="my-2 text-neutral-500">
             Ethinicity : {model.ethinicity}{" "}
