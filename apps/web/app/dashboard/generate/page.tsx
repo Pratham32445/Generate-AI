@@ -28,7 +28,9 @@ const Generate = () => {
     imageUrl: string;
     prompt: string;
     createdAt: Date;
-  }>({ imageUrl: "", prompt: "", createdAt: new Date() });
+    Id: string;
+    modelId: string;
+  }>({ imageUrl: "", prompt: "", createdAt: new Date(), Id: "", modelId: "" });
 
   const getUserGeneratedModels = async () => {
     const tokenData = await axios.get("/api/token");
@@ -176,6 +178,7 @@ const Generate = () => {
         </div>
       )}
       <OutputImage
+        deleteStatus={() => console.log("Hello")}
         open={isGenerated}
         setOpen={setIsGenerated}
         image={generatedImage}
