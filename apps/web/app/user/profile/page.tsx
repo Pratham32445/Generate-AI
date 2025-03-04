@@ -90,9 +90,6 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        Edit Profile
-                      </Button>
                       <Button size="sm" variant="default">
                         <ImagePlus className="mr-2 h-4 w-4" />
                         Create

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Image from "next/image"; 
+import Image from "next/image";
 import { LoaderCircle, Plus } from "lucide-react";
 import OutputImage from "@/components/OutputImage";
 import Link from "next/link";
@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button";
 import { ImageCard } from "@/components/Imagecard";
 
 interface Image {
-  prompt: string;
   Id: string;
+  modelId: string;
+  prompt: string;
   imageUrl: string;
   createdAt: Date;
 }
@@ -21,6 +22,7 @@ const Images = () => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<Image>();
   const [isLoading, setIsLoading] = useState(true);
+
   const getUserAllImages = async () => {
     const tokenData = await axios.get("/api/token");
     const response = await axios.get(
@@ -35,8 +37,6 @@ const Images = () => {
     setWithModels(response.data.withModels);
     setWithoutModels(response.data.withoutModels);
   };
-
-  console.log(withModels,withoutModels);
 
   useEffect(() => {
     getUserAllImages();
@@ -135,7 +135,12 @@ const Images = () => {
           )}
         </div>
       </div>
-      <OutputImage open={open} setOpen={setOpen} image={image!} />
+      <OutputImage
+        deleteStatus={() => getUserAllImages()}
+        open={open}
+        setOpen={setOpen}
+        image={image!}
+      />
     </div>
   );
 };

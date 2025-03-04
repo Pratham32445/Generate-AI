@@ -12,15 +12,24 @@ import { downloadImage } from "@/utils/DownloadImage";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
+import { deleteUserImage } from "@/utils/DeleteImage";
 
 const OutputImage = ({
   open,
   image,
   setOpen,
+  deleteStatus,
 }: {
   open: boolean;
-  image: { imageUrl: string; prompt: string; createdAt: Date };
+  image: {
+    imageUrl: string;
+    prompt: string;
+    createdAt: Date;
+    Id: string;
+    modelId: string;
+  };
   setOpen: (open: boolean) => void;
+  deleteStatus: () => void;
 }) => {
   const shareImage = async (imageUrl: string) => {
     try {
@@ -41,18 +50,30 @@ const OutputImage = ({
     }
   };
 
+  const deleteImage = async () => {
+    const type = image.modelId ? "outputImage" : "outputImagesWithoutModel";
+    const res = await deleteUserImage(image.Id, type);
+    if (res?.status == 200) {
+      toast.success(res.message);
+      deleteStatus();
+    } else toast.error(res?.message);
+    setOpen(false);
+  };
+
   return (
     image && (
       <Dialog open={open} onOpenChange={(value) => setOpen(Boolean(value))}>
         <DialogContent className="max-w-xl p-0 overflow-hidden">
           <DialogHeader>
-            <Image
-              src={image.imageUrl}
-              className="w-full"
-              width={300}
-              height={300}
-              alt="Image"
-            />
+            {image.imageUrl && (
+              <Image
+                src={image.imageUrl}
+                className="w-full"
+                width={300}
+                height={300}
+                alt="Image"
+              />
+            )}
           </DialogHeader>
           <DialogDescription className="p-4">
             <div>
@@ -80,6 +101,7 @@ const OutputImage = ({
                 height={15}
                 className="cursor-pointer"
                 color="#EE4B2B"
+                onClick={deleteImage}
               />
               <Share2Icon
                 width={15}

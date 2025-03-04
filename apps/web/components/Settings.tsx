@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { LogOut } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
+import { signOut } from "next-auth/react";
 
 const Settings = () => {
   return (
@@ -28,7 +29,7 @@ const Settings = () => {
                 <p className="text-sm text-muted-foreground">
                   Toggle between light and dark mode
                 </p>
-              </div>    
+              </div>
             </div>
             <Separator />
             <div className="flex items-center justify-between">
@@ -71,7 +72,11 @@ const Settings = () => {
         </CardContent>
       </Card>
 
-      <Button variant="destructive" className="w-full sm:w-auto">
+      <Button
+        onClick={() => signOut({ callbackUrl: "/login" })}
+        variant="destructive"
+        className="w-full sm:w-auto"
+      >
         <LogOut className="mr-2 h-4 w-4" />
         Sign Out
       </Button>

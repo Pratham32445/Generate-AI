@@ -84,7 +84,7 @@ model Pack {
   Id         String       @id @default(uuid())
   name       String
   packPrompt PackPrompt[]
-  thumbnail  String
+  thumbnail  String @default("")
 }
 
 model PackPrompt {

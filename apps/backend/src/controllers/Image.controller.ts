@@ -45,4 +45,47 @@ router.post("/generate", authMiddleware, async (req, res) => {
     })
 })
 
+router.post("/delete", authMiddleware, async (req, res) => {
+    const ImageId = req.body.imageId;
+    const type = req.body.type;
+    console.log(ImageId, type);
+    const user = await prismaClient.user.findFirst({
+        where: {
+            // @ts-ignore
+            email: req.user.email!
+        }
+    })
+    if (!user) return res.status(404).json({
+        message: "user not found"
+    })
+    if (type == "outputImage") {
+        const deletedImage = await prismaClient.outputImages.delete({
+            where: {
+                Id: ImageId,
+                userId: user?.Id
+            }
+        })
+        if (!deletedImage) return res.status(401).json({
+            message: "Some error Occured"
+        })
+        return res.json({
+            message: "Image deleted Successfully"
+        })
+    }
+    else {
+        const deletedImage = await prismaClient.outputImagesWithoutModel.delete({
+            where: {
+                Id: ImageId,
+                userId: user?.Id
+            }
+        })
+        if (!deletedImage) return res.status(401).json({
+            message: "Some error Occured"
+        })
+        return res.json({
+            message: "Image deleted Successfully"
+        })
+    }
+})
+
 export default router;

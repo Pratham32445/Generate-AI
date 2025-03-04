@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { useState, useEffect, useRef } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const LiveImageCount = () => {
-  const [images, setImages] = useState(500)
-  const [isIncreasing, setIsIncreasing] = useState(false)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [images, setImages] = useState(500);
+  const [isIncreasing, setIsIncreasing] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (intervalRef.current) {
-      clearInterval(intervalRef.current)
+      clearInterval(intervalRef.current);
     }
 
     intervalRef.current = setInterval(() => {
       setImages((prevCount) => {
-        const newCount = prevCount + Math.floor(Math.random() * 100)
-        setIsIncreasing(true)
-        setTimeout(() => setIsIncreasing(false), 1000)
-        return newCount
-      })
-    }, 5000)
+        const newCount = prevCount + Math.floor(Math.random() * 100);
+        setIsIncreasing(true);
+        setTimeout(() => setIsIncreasing(false), 1000);
+        return newCount;
+      });
+    }, 5000);
 
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
-    <div className="bg-amber-500/5 border-2 border-neutral-800/50 rounded-2xl p-6 border-amber-700 transition-all duration-300 gap-2 h-full flex flex-col items-start justify-center">
+    <div className="bg-amber-500/5 border-2 rounded-2xl p-6 border-amber-700 transition-all duration-300 gap-2 h-full flex flex-col items-start justify-center">
       <Card className="w-full bg-transparent border-none">
         <CardContent className="p-6">
           <div className="flex flex-col items-center space-y-4">
@@ -39,7 +39,9 @@ const LiveImageCount = () => {
               Live Counter
             </Badge>
 
-            <h3 className="text-lg font-medium text-muted-foreground text-center">Images Generated Till Now...</h3>
+            <h3 className="text-lg font-medium text-muted-foreground text-center">
+              Images Generated Till Now...
+            </h3>
 
             <div className="relative">
               <p
@@ -56,15 +58,16 @@ const LiveImageCount = () => {
                   Updating
                 </span>
               )}
-            </div>  
+            </div>
 
-            <p className="text-sm text-muted-foreground text-center">Counter updates every 5 seconds</p>
+            <p className="text-sm text-muted-foreground text-center">
+              Counter updates every 5 seconds
+            </p>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default LiveImageCount
-
+export default LiveImageCount;

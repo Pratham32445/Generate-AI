@@ -174,6 +174,22 @@ app.get("/user/me", authMiddleware, async (req, res) => {
   });
 });
 
+app.get("/isUser", async (req, res) => {
+  const email = req.query.email as string;
+  const user = await prismaClient.user.findFirst({
+    where: {
+      email: email
+    }
+  })
+  if (!user) return res.send(404).json({
+    success: false
+  })
+  res.json({
+    success: true
+  })
+})
+
+
 app.options("/pre-signed-url", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
