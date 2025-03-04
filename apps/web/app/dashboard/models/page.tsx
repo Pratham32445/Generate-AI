@@ -1,4 +1,3 @@
-
 export const revalidate = 60;
 
 import React from "react";
@@ -14,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import GeneratedModelCard from "./GeneratedModel";
 
 const Models = async () => {
   const session = await getServerSession(authOptions);
@@ -40,20 +40,20 @@ const Models = async () => {
         </h3>
         <div className="my-4">
           {currentlyTrainingModel.length > 0 ? (
-            <div className="flex">
+            <div className="flex gap-4">
               {currentlyTrainingModel.map((model, key) => (
                 <Link
                   href={`/dashboard/models/status/${model.falAiRequestId}`}
                   key={key}
                 >
-                  <Card className="border-2 border-neutral-800/50 rounded-2xl p-6 border-yellow-700 bg-yellow-500/10 transition-all duration-300">
+                  <Card className="border-2 border-neutral-800/50 rounded-2xl p-6 border-yellow-700 bg-yellow-500/10 transition-all duration-300 w-[200px]">
                     <CardHeader>
                       <CardTitle>{model.name}</CardTitle>
-                      <CardDescription>Card Description</CardDescription>
+                      <CardDescription>
+                        {new Date(model.createdAt).toLocaleDateString()}
+                      </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <p>{model.Id}</p>
-                    </CardContent>
+                    <CardContent></CardContent>
                     <CardFooter>
                       <p>{model.status}</p>
                     </CardFooter>
@@ -75,18 +75,7 @@ const Models = async () => {
         <div className="flex flex-wrap gap-4 mt-[10px]">
           {GeneratedModel.map((model) => (
             <div key={model.Id}>
-              <Card className="border-2 border-neutral-800/50 rounded-2xl  border-green-700 bg-green-500/10 transition-all duration-300 gap-12 p-2 cursor-pointer">
-                <CardHeader>
-                  <CardTitle>{model.name}</CardTitle>
-                  <CardDescription>Card Description</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>{model.Id}</p>
-                </CardContent>
-                <CardFooter>
-                  <p>{model.status}</p>
-                </CardFooter>
-              </Card>
+              <GeneratedModelCard model={model} />
             </div>
           ))}
         </div>

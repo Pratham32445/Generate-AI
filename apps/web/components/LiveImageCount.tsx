@@ -56,7 +56,7 @@ const LiveImageCount = () => {
                   Updating
                 </span>
               )}
-            </div>
+            </div>  
 
             <p className="text-sm text-muted-foreground text-center">Counter updates every 5 seconds</p>
           </div>
