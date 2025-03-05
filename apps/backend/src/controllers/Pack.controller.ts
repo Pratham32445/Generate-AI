@@ -22,15 +22,26 @@ router.post("/pack/generate", authMiddleware, async (req, res) => {
   if (!model) return res.status(411).json({
     message: "Invalid Inputs"
   })
-  const prompts = await prismaClient.packPrompt.findMany({
-    where: {
-      packId: parsedBody.data.packId,
-    },
-  });
   const user = await prismaClient.user.findFirst({
     where: {
       // @ts-ignore
       email: req.user.email!,
+    },
+  });
+  const pack = await prismaClient.pack.findFirst({
+    where: {
+      Id: parsedBody.data.packId
+    }
+  })
+  if (+user!.credits < pack!.price) {
+    res.status(401).json({
+      message: "Not have Enough Credits to Generate Pack"
+    })
+    return ;
+  }
+  const prompts = await prismaClient.packPrompt.findMany({
+    where: {
+      packId: parsedBody.data.packId,
     },
   });
   const requestIds = await Promise.all(prompts.map(async (prompt) => {
@@ -45,7 +56,8 @@ router.post("/pack/generate", authMiddleware, async (req, res) => {
         prompt: prompt.prompt,
         userId: user!.Id,
         falAiRequestId: requestIds[idx],
-        status: "Pending"
+        status: "Pending",
+        packId: parsedBody.data.packId
       }
     ))
   });
@@ -57,7 +69,7 @@ router.post("/pack/generate", authMiddleware, async (req, res) => {
 router.get("/pack/bulk", async (req, res) => {
   const packs = await prismaClient.pack.findMany({
     select: {
-      Id : true,
+      Id: true,
       name: true,
       packPrompt: true,
       thumbnail: true,

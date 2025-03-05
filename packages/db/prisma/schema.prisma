@@ -64,6 +64,7 @@ model OutputImages {
   model          Model                 @relation(fields: [modelId], references: [Id])
   user           User                  @relation(fields: [userId], references: [Id])
   status         OutputImageStatusEnum @default(Pending)
+  packId         String?
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
 }
@@ -84,7 +85,8 @@ model Pack {
   Id         String       @id @default(uuid())
   name       String
   packPrompt PackPrompt[]
-  thumbnail  String @default("")
+  thumbnail  String       @default("")
+  price      Int          @default(1)
 }
 
 model PackPrompt {

@@ -1,18 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -23,7 +16,7 @@ import {
 import { toast } from "sonner";
 import { GeneratePack } from "comman/infertypes";
 import { getImage } from "@/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import Generate from "./PackGenerate";
 
 interface Pack {
   Id: string;
@@ -89,6 +82,7 @@ const Packs = () => {
       }
       setIsLoading(true);
       const tokenData = await axios.get(`/api/token`);
+
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/bundle/pack/generate`,
         input,
@@ -100,6 +94,7 @@ const Packs = () => {
       );
       const images = res.data.images;
       const hasCompleted: string[] = [];
+
       const intervalId = setInterval(async () => {
         const updateImages = await Promise.all(
           images.map(async (imageId: string) => {
@@ -124,7 +119,10 @@ const Packs = () => {
         }
       }, 2000);
     } catch (error) {
-      toast(error as string);
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+        setIsLoading(false);
+      }
     }
   };
   return (
@@ -134,13 +132,12 @@ const Packs = () => {
         {packs &&
           packs.map(({ Id, name, thumbnail, packPrompt }: Pack) => (
             <Card key={Id} className="cursor-pointer p-2">
-              <p className="my-2 text-sm">Name : {name}</p>
               <CardContent className="p-0 relative w-[300px] h-[300px]">
                 <Image src={thumbnail} fill alt="packImage" />
               </CardContent>
-              <p className="p-2">Count : {packPrompt.length} </p>
+              <p className="my-2 text-sm">Name : {name}</p>
+              <p>Images : {packPrompt.length} </p>
               <div className="my-2">
-                <p className="text-xs">Select Model:</p>
                 <Select onValueChange={(value) => setSelectedModel(value)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select Model" />
@@ -170,50 +167,3 @@ const Packs = () => {
 };
 
 export default Packs;
-
-const Generate = ({
-  isLoading,
-  setisLoading,
-  outputImages,
-}: {
-  isLoading: boolean;
-  setisLoading: (value: boolean) => void;
-  outputImages: Image[];
-}) => {
-  return (
-    <Dialog open={isLoading} onOpenChange={(value) => setisLoading(value)}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Images</DialogTitle>
-          <DialogDescription>
-            Here you will recieve your Output Images
-          </DialogDescription>
-        </DialogHeader>
-        <div>
-          {outputImages.length == 0 ? (
-            <div>
-              <LoaderCircle width={15} height={15} className="animate-spin" />
-            </div>
-          ) : (
-            <ScrollArea className="h-[400px]">
-              <div className="flex flex-wrap gap-4">
-                {outputImages.map(({ imageUrl }, Idx) => {
-                  return (
-                    <Image
-                      key={Idx}
-                      width={200}
-                      height={200}
-                      src={imageUrl}
-                      alt="ImageUrl"
-                      className="aspect-square w-[120px] h-[120px] md:w-[200px] md:h-[200px] object-cover transition-transform"
-                    />
-                  );
-                })}
-              </div>
-            </ScrollArea>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};

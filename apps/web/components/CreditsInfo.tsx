@@ -11,6 +11,8 @@ import { ScrollArea } from "./ui/scroll-area";
 export default function CreditsInfo() {
   const [credits, setCredits] = React.useState<null | string>(null);
   const [Images, setImages] = React.useState([]);
+  const GENERATE_IMAGE = 0.4;
+  const TRAIN_MODEL = 4.0;
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -59,10 +61,10 @@ export default function CreditsInfo() {
         <div>
           <p className="text-neutral-300">Credits : {credits}</p>
           <p className="text-neutral-300">
-            You can Generate : {Math.floor(+4 / 0.4)} Images
+            You can Generate : {Math.floor(+credits / GENERATE_IMAGE)} Images
           </p>
           <p className="text-neutral-300">
-            You can Train : {Math.floor(+5 / 4.0)} Models
+            You can Train : {Math.floor(+credits / TRAIN_MODEL)} Models
           </p>
         </div>
         <div className="my-3">
