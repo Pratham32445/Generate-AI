@@ -59,7 +59,7 @@ export default function CreditsInfo() {
     <Card className="bg-green-500/5 border-2 border-neutral-800/50 rounded-2xl  border-green-700 hover:bg-green-500/10 transition-all duration-300 h-full w-full">
       <CardContent className="flex-1 p-4">
         <div>
-          <p className="text-neutral-300">Credits : {credits}</p>
+          <p className="text-neutral-300">Credits : {Number(credits).toFixed(2)}</p>
           <p className="text-neutral-300">
             You can Generate : {Math.floor(+credits / GENERATE_IMAGE)} Images
           </p>
