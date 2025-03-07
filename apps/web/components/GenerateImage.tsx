@@ -80,12 +80,12 @@ const GenerateImage = () => {
         rows={10}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Describe your Imagination - what is it, specific thing you want"
-        className="mt-[10px] w-full p-4 text-lg border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 dark:placeholder-gray-400 transition-colors duration-200"
+        className="mt-[10px] w-full p-4 text-lg border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200 dark:placeholder-gray-400 transition-colors duration-200 outline"
       />
       <Button
         disabled={isLoading}
         onClick={GenerateImageWithoutModel}
-        className="w-full p-5 my-5 bg-[#DEFF00]"
+        className="w-full p-5 my-5  text-black bg-[#c9e706] hover:bg-[#cdec03]"
       >
         <Brain /> Generate
       </Button>

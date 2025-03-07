@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sooner"
+import { Toaster } from "@/components/ui/sooner";
 import Provider from "@/providers";
 
 const geistSans = Geist({
@@ -31,21 +31,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <Provider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} ${montSerrat.variable} antialiased`}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} ${montSerrat.variable} antialiased`}
           >
             {children}
             <Toaster />
-          </ThemeProvider>
-        </body>
+          </body>
+        </ThemeProvider>
       </Provider>
     </html>
   );

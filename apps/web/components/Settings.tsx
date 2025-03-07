@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
@@ -5,8 +6,13 @@ import { LogOut } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
 
 const Settings = () => {
+  const { setTheme, theme } = useTheme();
+  const toogleTheme = () => {
+    setTheme(theme == "dark" ? "light" : "dark");
+  };
   return (
     <div>
       <Card>
@@ -29,6 +35,13 @@ const Settings = () => {
                 <p className="text-sm text-muted-foreground">
                   Toggle between light and dark mode
                 </p>
+              </div>
+              <div>
+                <Switch
+                  id="high-quality"
+                  defaultChecked={theme == "dark"}
+                  onClick={toogleTheme}
+                />
               </div>
             </div>
             <Separator />

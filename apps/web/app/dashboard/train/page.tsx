@@ -211,7 +211,7 @@ const TrainModel = () => {
                 !eyeColor
               }
               onClick={trainModel}
-              className="bg-[#DEFF00]"
+              className="text-black bg-[#c9e706] hover:bg-[#cdec03]"
             >
               <Brain /> Train Model
             </Button>
