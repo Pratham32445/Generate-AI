@@ -62,6 +62,11 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
       Id: parsedBody.data.modelId,
     },
   });
+  if (!model) {
+    res.status(401).json({
+      message: "Model not found"
+    }); return;
+  }
   const user = await prismaClient.user.findFirst({
     where: {
       // @ts-ignore
@@ -76,7 +81,7 @@ router.post("/model/generate", authMiddleware, async (req, res) => {
   }
   const request_id = await falAIModel.generateImage(
     parsedBody.data.prompt,
-    model?.tensorPath!
+    [model.tensorPath!]
   );
   const image = await prismaClient.outputImages.create({
     data: {

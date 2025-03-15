@@ -41,6 +41,7 @@ router.post("/generate", authMiddleware, async (req, res) => {
         }
     })
     res.json({
+        requestId : image.falAiRequestId,
         imageId: image.Id
     })
 })

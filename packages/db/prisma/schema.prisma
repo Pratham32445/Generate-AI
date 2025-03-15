@@ -85,6 +85,7 @@ model Pack {
   Id         String       @id @default(uuid())
   name       String
   packPrompt PackPrompt[]
+  models     String[]
   thumbnail  String       @default("")
   price      Int          @default(1)
 }

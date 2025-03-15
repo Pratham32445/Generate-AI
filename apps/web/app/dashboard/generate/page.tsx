@@ -69,6 +69,7 @@ const Generate = () => {
           },
         }
       );
+      console.log(response);
       if (response.status == 200) {
         const intervalId = setInterval(async () => {
           const resImage = await getImage(response.data.image, "outputImages");
@@ -157,7 +158,7 @@ const Generate = () => {
             <Button
               disabled={isLoading}
               onClick={GenerateImage}
-              className="w-full p-7 my-5 dark:text-white  bg-[#c9e706] hover:bg-[#cdec03]"
+              className="w-full p-7 my-5 bg-[#c9e706] hover:bg-[#cdec03]"
             >
               <Brain /> Generate
             </Button>

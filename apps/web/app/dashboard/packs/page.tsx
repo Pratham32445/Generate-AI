@@ -128,32 +128,34 @@ const Packs = () => {
   return (
     <div className="px-4 py-5">
       <p>Predefined Packs</p>
-      <div className="flex flex-wrap pt-5">
+      <div className="flex gap-4 flex-wrap pt-5">
         {packs &&
           packs.map(({ Id, name, thumbnail, packPrompt }: Pack) => (
-            <Card key={Id} className="cursor-pointer p-2">
+            <Card key={Id} className="cursor-pointer p-0 overflow-hidden">
               <CardContent className="p-0 relative w-[300px] h-[300px]">
                 <Image src={thumbnail} fill alt="packImage" />
               </CardContent>
-              <p className="my-2 text-sm">Name : {name}</p>
-              <p>Images : {packPrompt.length} </p>
-              <div className="my-2">
-                <Select onValueChange={(value) => setSelectedModel(value)}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select Model" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {userModels.map(({ Id, name }) => (
-                      <SelectItem key={Id} value={Id}>
-                        {name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="p-2 px-4">
+                <p className="my-2 text-sm">Name : {name}</p>
+                <p>Images : {packPrompt.length} </p>
+                <div className="my-2">
+                  <Select onValueChange={(value) => setSelectedModel(value)}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select Model" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {userModels.map(({ Id, name }) => (
+                        <SelectItem key={Id} value={Id}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button className="my-1" onClick={() => GeneratePack(Id)}>
+                  Generate
+                </Button>
               </div>
-              <Button className="my-1" onClick={() => GeneratePack(Id)}>
-                Generate
-              </Button>
               <Generate
                 setisLoading={setIsLoading}
                 isLoading={isLoading}

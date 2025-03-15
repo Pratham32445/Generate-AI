@@ -19,7 +19,7 @@ router.post("/pack/generate", authMiddleware, async (req, res) => {
       Id: parsedBody.data.modelId
     }
   })
-  if (!model) return res.status(411).json({
+  if (!model || !model.tensorPath) return res.status(411).json({
     message: "Invalid Inputs"
   })
   const user = await prismaClient.user.findFirst({
@@ -37,15 +37,18 @@ router.post("/pack/generate", authMiddleware, async (req, res) => {
     res.status(401).json({
       message: "Not have Enough Credits to Generate Pack"
     })
-    return ;
+    return;
   }
   const prompts = await prismaClient.packPrompt.findMany({
     where: {
       packId: parsedBody.data.packId,
     },
   });
+  const modelsTensorPath = pack!.models ? [...pack!.models, model.tensorPath] : [model.tensorPath];
+
   const requestIds = await Promise.all(prompts.map(async (prompt) => {
-    const Ids = await falAIModel.generateImage(prompt.prompt, model.tensorPath!)
+    const userPrompt = prompt.prompt.replace("user",model.name);
+    const Ids = await falAIModel.generateImage(userPrompt, modelsTensorPath);
     return Ids;
   }))
   const images = await prismaClient.outputImages.createManyAndReturn({
