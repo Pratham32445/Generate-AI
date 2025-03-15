@@ -1,2 +1,24 @@
-* linguist-vendored
-*.js linguist-vendored=false
+# Force GitHub to recognize TypeScript as the main language
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Ignore common build and generated files
+dist/* linguist-vendored
+build/* linguist-vendored
+out/* linguist-vendored
+.next/* linguist-vendored
+apps/*/dist/* linguist-vendored
+packages/*/dist/* linguist-vendored
+
+# Ignore HTML, CSS, and other non-primary files
+*.html linguist-vendored
+*.css linguist-vendored
+*.scss linguist-vendored
+*.json linguist-vendored
+*.lock linguist-vendored
+*.md linguist-vendored
+
+# Ignore dependencies
+node_modules/* linguist-vendored
+apps/*/node_modules/* linguist-vendored
+packages/*/node_modules/* linguist-vendored
