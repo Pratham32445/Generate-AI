@@ -14,7 +14,7 @@ packages/*/dist/* linguist-vendored
 *.html linguist-vendored
 *.css linguist-vendored
 *.scss linguist-vendored
-*.json linguist-vendored
+*.json linguist-vendored    
 *.lock linguist-vendored
 *.md linguist-vendored
 
