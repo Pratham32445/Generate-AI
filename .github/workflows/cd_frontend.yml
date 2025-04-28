@@ -41,7 +41,7 @@ jobs:
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/ssh_key
           chmod 600 ~/ssh_key
           mkdir -p ~/.ssh
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.233.254.88 -t "
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@3.108.184.189 -t "
             sudo docker stop Generate-AI-frontend || true;
             sudo docker rm Generate-AI-frontend || true;
             sudo docker rmi pratham59/generate-ai-frontend-main:latest || true; 
@@ -55,3 +55,4 @@ jobs:
               -e NEXT_PUBLIC_S3_URL='${{secrets.NEXT_PUBLIC_S3_URL}}' \
               -e NEXT_PUBLIC_PRODUCTION_URL='${{secrets.NEXT_PUBLIC_PRODUCTION_URL}}' \
               pratham59/generate-ai-frontend-main:latest"
+  

@@ -72,4 +72,4 @@ USER appuser
 
 EXPOSE 8080
 
-CMD ["node", "apps/backend/dist/index.js"]
+CMD ["node", "apps/backend/dist/index.js"]      
