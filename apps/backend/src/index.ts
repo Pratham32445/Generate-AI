@@ -22,9 +22,9 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use(cors(corsOptions));
 
 fal.config({
   credentials: process.env.FAL_API_KEY,
@@ -58,20 +58,20 @@ app.get("/image/bulk", async (req, res) => {
 });
 
 app.get("/pre-signed-url", async (req, res) => {
-  const key = `models/${Date.now()}.zip`;
-  const command = new PutObjectCommand({
-    Bucket: process.env.BUCKET_NAME!,
-    Key: key,
-  });
-  const url = await getSignedUrl(s3client, command, { expiresIn: 60 * 5 });
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-
-  res.json({
-    url,
-    key,
-  });
+  try {
+    const key = `models/${Date.now()}.zip`;
+    const command = new PutObjectCommand({
+      Bucket: process.env.BUCKET_NAME!,
+      Key: key,
+    });
+    const url = await getSignedUrl(s3client, command, { expiresIn: 60 * 5 });
+    res.json({
+      url,
+      key,
+    });
+  } catch(error) {
+    console.log(error);
+  }
 });
 
 app.get("/model/train/status", async (req, res) => {
@@ -190,13 +190,6 @@ app.get("/isUser", async (req, res) => {
 })
 
 
-app.options("/pre-signed-url", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.sendStatus(200);
-});
 
 app.listen(PORT, () => {
   console.log("running");
