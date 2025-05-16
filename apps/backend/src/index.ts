@@ -12,7 +12,7 @@ import { authMiddleware } from "./middlewares/authMiddleware";
 import webhookRouter from "./webhook/Model.webhook";
 import ImageRouter from "./controllers/Image.controller";
 
-const app = express();
+const app = express();  
 
 const corsOptions = {
   origin: ["https://generate.ai.code10x.online", "http://localhost:3000"],
@@ -59,12 +59,14 @@ app.get("/image/bulk", async (req, res) => {
 
 app.get("/pre-signed-url", async (req, res) => {
   try {
-    const key = `models/${Date.now()}.zip`;
+    const key = `uploads/${Date.now()}.zip`;
     const command = new PutObjectCommand({
-      Bucket: process.env.BUCKET_NAME!,
+      Bucket: process.env.BUCKET_NAME!, 
       Key: key,
+      ContentType : "application/zip" 
     });
     const url = await getSignedUrl(s3client, command, { expiresIn: 60 * 5 });
+    console.log(url);
     res.json({
       url,
       key,

@@ -21,6 +21,7 @@ const UploadImage = ({
       if (res.status == 200) {
         const key = res.data.key;
         const url = res.data.url;
+        console.log(url);
         for (const file of files) {
           const content = await file.arrayBuffer();
           zip.file(file.name, content);
@@ -30,15 +31,16 @@ const UploadImage = ({
         formData.append("file", zipFile);
         formData.append("key", key);
         const resdata = await axios.put(url, formData, {
-          headers: {
+          headers: {  
             "Content-Type": "application/zip",
           },
         });
+        console.log(resdata);
         if (resdata.status == 200) {
           console.log(process.env.NEXT_PUBLIC_S3_URL,"url");
           onUploadDone(`${process.env.NEXT_PUBLIC_S3_URL!}/${key}`);
         }
-      }
+      }     
     }
   };
   return (
@@ -93,7 +95,7 @@ const UploadImage = ({
             </div>
           ))}
         </div>
-      )}
+      )}  
     </div>
   );
 };
